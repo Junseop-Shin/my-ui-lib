@@ -5,6 +5,7 @@
   --inset-shadow-button: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset;
 
   --font-header: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-page: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 :root {
@@ -22,21 +23,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
   }
 }

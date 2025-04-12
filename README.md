@@ -1,54 +1,31 @@
-# React + TypeScript + Vite
+UI 컴포넌트 만들기
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- 버튼/헤더/페이지(스토리북 기본제공)
+- 드롭다운(예정)
+- 테이블(예정)
+- 차트(예정)
+- 모달(예정)
+- 토스트(예정)
 
-Currently, two official plugins are available:
+기술
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Vite로 프로젝트 생성(CRA 대체)
+- React, Typescript
+- Tailwind
+- vite 빌드
+- Storybook
 
-## Expanding the ESLint configuration
+기능
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Storybook을 이용한 독립 개발
+- Storybook을 이용한 테스트
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+추가/수정하면 좋은 기능/컴포넌트
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- 디자인 시스템 적용
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+  - Spacing/Color/Typography
+  - Icon
+  - Button
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+- 다크모드/반응형 디자인 반영

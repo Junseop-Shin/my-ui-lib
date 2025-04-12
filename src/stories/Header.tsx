@@ -1,7 +1,4 @@
-import React from 'react';
-
-import { Button } from './Button';
-import './header.css';
+import { Button } from "./Button";
 
 type User = {
   name: string;
@@ -14,11 +11,22 @@ export interface HeaderProps {
   onCreateAccount?: () => void;
 }
 
-export const Header = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps) => (
+export const Header = ({
+  user,
+  onLogin,
+  onLogout,
+  onCreateAccount,
+}: HeaderProps) => (
   <header>
-    <div className="storybook-header">
-      <div>
-        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+    <div className="flex justify-between items-center px-5 py-[15px] border-b-[rgba(0, 0, 0, 0.1)] font-header">
+      <div className="flex">
+        <svg
+          width="32"
+          height="32"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+          className="inline-block align-top"
+        >
           <g fill="none" fillRule="evenodd">
             <path
               d="M10 0h12a10 10 0 0110 10v12a10 10 0 01-10 10H10A10 10 0 010 22V10A10 10 0 0110 0z"
@@ -34,21 +42,28 @@ export const Header = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps
             />
           </g>
         </svg>
-        <h1>Acme</h1>
+        <h1 className="inline-block align-top my-1.5 ml-2.5 mr-0 font-bold text-xl leading-none">
+          Acme
+        </h1>
       </div>
       <div>
         {user ? (
           <>
-            <span className="welcome">
+            <span className="mr-2.5 text-[#333] text-sm">
               Welcome, <b>{user.name}</b>!
             </span>
             <Button size="small" onClick={onLogout} label="Log out" />
           </>
         ) : (
-          <>
+          <div className="flex space-x-2.5">
             <Button size="small" onClick={onLogin} label="Log in" />
-            <Button primary size="small" onClick={onCreateAccount} label="Sign up" />
-          </>
+            <Button
+              primary
+              size="small"
+              onClick={onCreateAccount}
+              label="Sign up"
+            />
+          </div>
         )}
       </div>
     </div>

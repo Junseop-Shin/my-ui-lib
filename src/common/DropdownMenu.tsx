@@ -1,9 +1,13 @@
 import { memo, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, HTMLMotionProps } from "framer-motion";
 import { useDropdownContext } from "../context/DropdownContext";
 import Tooltip from "./Tooltip";
 
-const DropdownMenu = () => {
+interface DropdownMenuProps extends HTMLMotionProps<"ul"> {
+  depth?: number;
+}
+
+const DropdownMenu = ({ ...props }: DropdownMenuProps) => {
   const {
     open,
     value,
@@ -14,13 +18,16 @@ const DropdownMenu = () => {
     menuPosition,
   } = useDropdownContext();
 
-  const handleMouseEnter = useCallback((index: number) => {
-    setActiveIndex(index);
-  }, []);
+  const handleMouseEnter = useCallback(
+    (index: number) => {
+      setActiveIndex(index);
+    },
+    [setActiveIndex]
+  );
 
   const handleMouseLeave = useCallback(() => {
     setActiveIndex(null);
-  }, []);
+  }, [setActiveIndex]);
 
   const getPositionClass = () => {
     switch (menuPosition) {
@@ -48,6 +55,7 @@ const DropdownMenu = () => {
           className={`absolute w-full bg-white border rounded shadow-lg mt-1 max-h-60 min-w-[200px] overflow-auto z-10
           ${getPositionClass()}`}
           onMouseLeave={handleMouseLeave}
+          {...props}
         >
           {filteredOptions.length === 0 ? (
             <li className="px-3 py-2 text-gray-400">No results</li>

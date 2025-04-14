@@ -1,4 +1,4 @@
-import { ReactNode, useMemo } from "react";
+import { HTMLProps, ReactNode, useMemo } from "react";
 import ChevronIcon from "./ChevronIcon";
 import { useDropdown } from "../hooks/useDropdown";
 import DropdownMenu from "./DropdownMenu";
@@ -16,13 +16,13 @@ export type DropdownPostion =
   | "top-left"
   | "top-right";
 
-export type DropdownProps = {
+export interface CustomDropdownProps {
   options: DropdownOption[];
   value?: string[];
   menuPosition?: DropdownPostion;
   multiSelect?: boolean;
 
-  onChange?: (newValue: string[]) => void;
+  onValueChange?: (newValue: string[]) => void;
   searchable?: boolean;
   placeholder?: string;
   triggerType?: "input" | "button";
@@ -30,20 +30,24 @@ export type DropdownProps = {
   handleButtonClick?: () => void;
   buttonLabel?: string;
   buttonIcon?: ReactNode;
-};
+}
+
+export type DropdownProps = CustomDropdownProps &
+  Omit<HTMLProps<HTMLDivElement>, "onChange">;
 
 export function Dropdown({
   options,
   value: initialValue,
   menuPosition = "bottom-left",
   multiSelect = true,
-  onChange,
+  onValueChange,
   searchable = true,
   placeholder = "Dropdown...",
   triggerType = "input",
   handleButtonClick,
   buttonIcon,
   buttonLabel = "Dropdown",
+  ...props
 }: DropdownProps) {
   const {
     open,
@@ -57,7 +61,7 @@ export function Dropdown({
     setActiveIndex,
     filteredOptions,
     handleKeyDown,
-  } = useDropdown(options, multiSelect, initialValue, onChange);
+  } = useDropdown(options, multiSelect, initialValue, onValueChange);
 
   const contextValue = useMemo(
     () => ({
@@ -87,6 +91,9 @@ export function Dropdown({
         onKeyDown={handleKeyDown}
         tabIndex={0}
         ref={ref}
+        aria-expanded={open}
+        aria-controls="dropdown-menu"
+        {...props}
       >
         {triggerType === "input" ? (
           <>
@@ -97,7 +104,10 @@ export function Dropdown({
                 setOpen(true);
                 setQuery("");
               }}
-              onChange={(e) => setQuery(e.target.value)}
+              {...(searchable && {
+                onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                  setQuery(e.target.value),
+              })}
               value={
                 searchable && open
                   ? query
@@ -114,7 +124,7 @@ export function Dropdown({
                 setQuery("");
               }}
             >
-              <ChevronIcon open={open} />
+              <ChevronIcon direction={open ? "up" : "down"} />
             </button>
           </>
         ) : (
@@ -130,7 +140,7 @@ export function Dropdown({
               className="absolute right-1 top-1 p-2.5 cursor-pointer hover:opacity-50"
               onClick={() => setOpen((prev) => !prev)}
             >
-              <ChevronIcon open={open} />
+              <ChevronIcon direction={open ? "up" : "down"} />
             </button>
           </>
         )}

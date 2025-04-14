@@ -1,14 +1,14 @@
 // Tooltip.tsx
-import { useEffect, useRef, useState } from "react";
+import { HTMLProps, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-type Props = {
+interface TooltipProps extends HTMLProps<HTMLDivElement> {
   children: React.ReactNode;
   content?: string;
   position?: "right" | "left" | "top" | "bottom";
-};
+}
 
-const Tooltip = ({ children, content }: Props) => {
+const Tooltip = ({ children, content, ...props }: TooltipProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const [show, setShow] = useState(false);
@@ -37,6 +37,7 @@ const Tooltip = ({ children, content }: Props) => {
           <div
             className="fixed bg-black text-white text-xs px-2 py-1 rounded shadow z-50"
             style={{ top: position.top, left: position.left }}
+            {...props}
           >
             {content}
           </div>,

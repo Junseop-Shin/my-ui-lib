@@ -10,9 +10,17 @@ export type DropdownOption = {
   description?: string;
 };
 
+export type DropdownPostion =
+  | "bottom-left"
+  | "bottom-right"
+  | "top-left"
+  | "top-right";
+
 export type DropdownProps = {
   options: DropdownOption[];
   value?: string[]; // 다중 선택 지원
+  menuPosition?: DropdownPostion;
+
   onChange?: (newValue: string[]) => void;
   searchable?: boolean;
   placeholder?: string;
@@ -26,6 +34,7 @@ export type DropdownProps = {
 export function Dropdown({
   options,
   value: initialValue,
+  menuPosition = "bottom-left",
   onChange,
   searchable = true,
   placeholder = "Dropdown...",
@@ -73,7 +82,7 @@ export function Dropdown({
   );
 
   return (
-    <DropdownContext.Provider value={contextValue}>
+    <DropdownContext.Provider value={{ ...contextValue, menuPosition }}>
       <div
         className="relative"
         onKeyDown={handleKeyDown}

@@ -12,6 +12,7 @@ const DropdownMenu = () => {
     setActiveIndex,
     filteredOptions,
     handleClear,
+    menuPosition,
   } = useDropdownContext();
 
   const handleMouseEnter = (index: number) => {
@@ -22,6 +23,21 @@ const DropdownMenu = () => {
     setActiveIndex(null);
   };
 
+  const getPositionClass = () => {
+    switch (menuPosition) {
+      case "top-left":
+        return "bottom-full left-0 mb-1";
+      case "top-right":
+        return "bottom-full right-0 mb-1";
+      case "bottom-left":
+        return "top-full left-0 mt-1";
+      case "bottom-right":
+        return "top-full right-0 mt-1";
+      default:
+        return "top-full left-0 mt-1";
+    }
+  };
+
   return (
     <AnimatePresence>
       {open && (
@@ -30,7 +46,8 @@ const DropdownMenu = () => {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 0.15 }}
-          className="absolute w-full bg-white border rounded shadow-lg mt-1 max-h-60 overflow-auto z-10"
+          className={`absolute w-full bg-white border rounded shadow-lg mt-1 max-h-60 min-w-[200px] overflow-auto z-10
+          ${getPositionClass()}`}
           onMouseLeave={handleMouseLeave}
         >
           <li

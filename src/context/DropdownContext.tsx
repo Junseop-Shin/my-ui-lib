@@ -1,6 +1,6 @@
 // context/DropdownContext.tsx
 import { createContext, useContext } from "react";
-import { DropdownOption } from "../common/Dropdown";
+import { DropdownOption, DropdownPostion } from "../common/Dropdown";
 
 type DropdownContextType = {
   open: boolean;
@@ -11,6 +11,7 @@ type DropdownContextType = {
   activeIndex: number | null;
   setActiveIndex: (val: number | null) => void;
   handleClear: () => void;
+  menuPosition: DropdownPostion;
 };
 
 export const DropdownContext = createContext<DropdownContextType | null>(null);

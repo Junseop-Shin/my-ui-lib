@@ -13,6 +13,10 @@ const meta = {
       control: { type: "select" },
       options: ["input", "button"],
     },
+    menuPosition: {
+      control: { type: "select" },
+      options: ["bottom-left", "bottom-right", "top-left", "top-right"],
+    },
     searchable: { control: { type: "boolean" } },
   },
 } satisfies Meta<typeof Dropdown>;

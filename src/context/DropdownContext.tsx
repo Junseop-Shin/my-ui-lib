@@ -10,6 +10,7 @@ type DropdownContextType = {
   filteredOptions: DropdownOption[];
   activeIndex: number | null;
   setActiveIndex: (val: number | null) => void;
+  handleClear: () => void;
 };
 
 export const DropdownContext = createContext<DropdownContextType | null>(null);

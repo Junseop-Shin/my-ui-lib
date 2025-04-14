@@ -29,13 +29,18 @@ export function useDropdown(
     if (onChange) onChange(updated);
   };
 
+  const handleClear = () => {
+    setValue([]);
+    if (onChange) onChange([]);
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!open) return;
 
     if (e.key === "ArrowDown") {
       // 아래로 이동
       setActiveIndex((prev) =>
-        prev === null ? 0 : Math.min(filteredOptions.length - 1, prev + 1)
+        prev === null ? 0 : Math.min(filteredOptions.length, prev + 1)
       );
     } else if (e.key === "ArrowUp") {
       // 위로 이동
@@ -43,7 +48,11 @@ export function useDropdown(
     } else if (e.key === "Enter") {
       // 선택
       if (activeIndex !== null) {
-        toggleSelect(filteredOptions[activeIndex].value);
+        if (activeIndex === 0) {
+          handleClear();
+        } else {
+          toggleSelect(filteredOptions[activeIndex - 1].value);
+        }
       }
     } else if (e.key === "Escape") {
       // 닫기
@@ -73,5 +82,6 @@ export function useDropdown(
     activeIndex,
     setActiveIndex,
     handleKeyDown,
+    handleClear,
   };
 }

@@ -1,13 +1,25 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { DropdownOption } from "../common/Dropdown";
 
 export function useDropdown(
+  options: DropdownOption[],
   initialValue?: string[],
   onChange?: (v: string[]) => void
 ) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(initialValue ?? []);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [query, setQuery] = useState("");
 
   const ref = useRef<HTMLDivElement>(null);
+
+  const filteredOptions = useMemo(
+    () =>
+      options.filter((opt) =>
+        opt.label.toLowerCase().includes(query.toLowerCase())
+      ),
+    [options, query]
+  );
 
   const toggleSelect = (val: string) => {
     const updated = value.includes(val)
@@ -15,6 +27,28 @@ export function useDropdown(
       : [...value, val];
     setValue(updated);
     if (onChange) onChange(updated);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!open) return;
+
+    if (e.key === "ArrowDown") {
+      // 아래로 이동
+      setActiveIndex((prev) =>
+        prev === null ? 0 : Math.min(filteredOptions.length - 1, prev + 1)
+      );
+    } else if (e.key === "ArrowUp") {
+      // 위로 이동
+      setActiveIndex((prev) => (prev === null ? 0 : Math.max(0, prev - 1)));
+    } else if (e.key === "Enter") {
+      // 선택
+      if (activeIndex !== null) {
+        toggleSelect(filteredOptions[activeIndex].value);
+      }
+    } else if (e.key === "Escape") {
+      // 닫기
+      setOpen(false);
+    }
   };
 
   useEffect(() => {
@@ -27,5 +61,17 @@ export function useDropdown(
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  return { open, setOpen, value, toggleSelect, ref };
+  return {
+    open,
+    setOpen,
+    value,
+    toggleSelect,
+    ref,
+    query,
+    setQuery,
+    filteredOptions,
+    activeIndex,
+    setActiveIndex,
+    handleKeyDown,
+  };
 }

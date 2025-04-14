@@ -28,7 +28,7 @@ const Tooltip = ({ children, content }: Props) => {
         ref={ref}
         onMouseEnter={() => setShow(true)}
         onMouseLeave={() => setShow(false)}
-        className="inline-block"
+        className="inline-block w-full"
       >
         {children}
       </div>

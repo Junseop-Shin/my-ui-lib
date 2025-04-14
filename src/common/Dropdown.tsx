@@ -1,4 +1,4 @@
-import { useState, ReactNode, useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 import ChevronIcon from "./ChevronIcon";
 import { useDropdown } from "../hooks/useDropdown";
 import DropdownMenu from "./DropdownMenu";
@@ -34,51 +34,49 @@ export function Dropdown({
   buttonIcon,
   buttonLabel = "Dropdown",
 }: DropdownProps) {
-  const { open, setOpen, value, ref, toggleSelect } = useDropdown(
-    initialValue,
-    onChange
-  );
-  const [query, setQuery] = useState("");
-  const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
+  const {
+    open,
+    setOpen,
+    value,
+    ref,
+    toggleSelect,
+    query,
+    setQuery,
+    activeIndex,
+    setActiveIndex,
+    filteredOptions,
+    handleKeyDown,
+  } = useDropdown(options, initialValue, onChange);
 
-  const filteredOptions = useMemo(
-    () =>
-      options.filter((opt) =>
-        opt.label.toLowerCase().includes(query.toLowerCase())
-      ),
-    [options, query]
-  );
   const contextValue = useMemo(
-    () => ({ open, setOpen, value, toggleSelect }),
-    [open, setOpen, value, toggleSelect]
+    () => ({
+      open,
+      setOpen,
+      value,
+      toggleSelect,
+      activeIndex,
+      setActiveIndex,
+      filteredOptions,
+    }),
+    [
+      open,
+      setOpen,
+      value,
+      toggleSelect,
+      activeIndex,
+      setActiveIndex,
+      filteredOptions,
+    ]
   );
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!open) return;
-
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      setHighlightedIndex((prev) =>
-        prev < filteredOptions.length - 1 ? prev + 1 : 0
-      );
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setHighlightedIndex((prev) =>
-        prev > 0 ? prev - 1 : filteredOptions.length - 1
-      );
-    } else if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      if (filteredOptions[highlightedIndex]) {
-        toggleSelect(filteredOptions[highlightedIndex].value);
-      }
-    } else if (e.key === "Escape") {
-      setOpen(false);
-    }
-  };
 
   return (
     <DropdownContext.Provider value={contextValue}>
-      <div className="relative" ref={ref}>
+      <div
+        className="relative"
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
+        ref={ref}
+      >
         {triggerType === "input" ? (
           <>
             <input
@@ -89,7 +87,6 @@ export function Dropdown({
                 setQuery("");
               }}
               onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={handleKeyDown}
               value={
                 searchable && open
                   ? query
@@ -114,7 +111,6 @@ export function Dropdown({
             <button
               onClick={handleButtonClick}
               className="w-fit text-center border pl-3 pr-9 py-2 rounded cursor-pointer"
-              onKeyDown={handleKeyDown}
             >
               {buttonIcon && <span className="mr-1">{buttonIcon}</span>}
               {buttonLabel}
@@ -127,7 +123,7 @@ export function Dropdown({
             </button>
           </>
         )}
-        <DropdownMenu filtered={filteredOptions} />
+        <DropdownMenu />
       </div>
     </DropdownContext.Provider>
   );

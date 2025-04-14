@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import DropdownStoryWrapper from "../common/DropdownStoryWrapper";
+import { Dropdown } from "../common/Dropdown";
 
 const meta = {
   title: "Example/Dropdown",
-  component: DropdownStoryWrapper,
+  component: Dropdown,
   parameters: {
     layout: "centered",
   },
@@ -15,7 +15,7 @@ const meta = {
     },
     searchable: { control: { type: "boolean" } },
   },
-} satisfies Meta<typeof DropdownStoryWrapper>;
+} satisfies Meta<typeof Dropdown>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

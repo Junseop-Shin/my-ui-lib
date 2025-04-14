@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDropdownContext } from "../context/DropdownContext";
 import Tooltip from "./Tooltip";
@@ -14,13 +14,13 @@ const DropdownMenu = () => {
     menuPosition,
   } = useDropdownContext();
 
-  const handleMouseEnter = (index: number) => {
+  const handleMouseEnter = useCallback((index: number) => {
     setActiveIndex(index);
-  };
+  }, []);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     setActiveIndex(null);
-  };
+  }, []);
 
   const getPositionClass = () => {
     switch (menuPosition) {

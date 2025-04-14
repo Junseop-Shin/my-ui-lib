@@ -18,8 +18,9 @@ export type DropdownPostion =
 
 export type DropdownProps = {
   options: DropdownOption[];
-  value?: string[]; // 다중 선택 지원
+  value?: string[];
   menuPosition?: DropdownPostion;
+  multiSelect?: boolean;
 
   onChange?: (newValue: string[]) => void;
   searchable?: boolean;
@@ -35,6 +36,7 @@ export function Dropdown({
   options,
   value: initialValue,
   menuPosition = "bottom-left",
+  multiSelect = true,
   onChange,
   searchable = true,
   placeholder = "Dropdown...",
@@ -55,7 +57,7 @@ export function Dropdown({
     setActiveIndex,
     filteredOptions,
     handleKeyDown,
-  } = useDropdown(options, initialValue, onChange);
+  } = useDropdown(options, multiSelect, initialValue, onChange);
 
   const contextValue = useMemo(
     () => ({

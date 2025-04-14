@@ -18,6 +18,7 @@ const meta = {
       options: ["bottom-left", "bottom-right", "top-left", "top-right"],
     },
     searchable: { control: { type: "boolean" } },
+    multiSelect: { control: { type: "boolean" } },
   },
 } satisfies Meta<typeof Dropdown>;
 
@@ -28,6 +29,7 @@ export const ButtonDropdown: Story = {
   args: {
     triggerType: "button",
     placeholder: "ButtonDropdown",
+    multiSelect: false,
     options: [
       { label: "사과", value: "apple", description: "빨가면 사과" },
       { label: "바나나", value: "banana", description: "맛있으면 바나나" },
@@ -36,10 +38,24 @@ export const ButtonDropdown: Story = {
   },
 };
 
-export const Secondary: Story = {
+export const MultiSelectInputDropdown: Story = {
   args: {
     triggerType: "input",
     placeholder: "InputDropdown",
+    multiSelect: true,
+    options: [
+      { label: "사과", value: "apple", description: "빨가면 사과" },
+      { label: "바나나", value: "banana", description: "맛있으면 바나나" },
+      { label: "오렌지", value: "orange" },
+    ],
+  },
+};
+
+export const InputDropdown: Story = {
+  args: {
+    triggerType: "input",
+    placeholder: "InputDropdown",
+    multiSelect: false,
     options: [
       { label: "사과", value: "apple", description: "빨가면 사과" },
       { label: "바나나", value: "banana", description: "맛있으면 바나나" },

@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { DropdownOption } from "../common/Dropdown";
 
 export function useDropdown(
   options: DropdownOption[],
+  multiSelect: boolean,
   initialValue?: string[],
   onChange?: (v: string[]) => void
 ) {
@@ -18,6 +19,11 @@ export function useDropdown(
       opt.label.toLowerCase().includes(query.toLowerCase())
     );
 
+    // multiSelect가 아닐 때는 Clear All 버튼을 포함하지 않음
+    if (!multiSelect) {
+      return result;
+    }
+
     return [
       {
         label: "전체 선택 해제",
@@ -27,25 +33,36 @@ export function useDropdown(
       },
       ...result,
     ];
-  }, [options, query, value]);
+  }, [options, query, value, multiSelect]);
 
-  const handleClear = () => {
+  const handleClear = useCallback(() => {
     setValue([]);
     if (onChange) onChange([]);
-  };
+  }, [setValue, onChange]);
 
-  const toggleSelect = (val: string) => {
-    if (val == "__CLEAR_ALL__") {
-      if (value.length === 0) return;
-      handleClear();
-      return;
-    }
-    const updated = value.includes(val)
-      ? value.filter((v) => v !== val)
-      : [...value, val];
-    setValue(updated);
-    if (onChange) onChange(updated);
-  };
+  const toggleSelect = useCallback(
+    (val: string) => {
+      if (!multiSelect) {
+        if (onChange) onChange([val]);
+        setValue([val]);
+        setTimeout(() => {
+          setOpen(false);
+        }, 0);
+        return;
+      }
+      if (val == "__CLEAR_ALL__") {
+        if (value.length === 0) return;
+        handleClear();
+        return;
+      }
+      const updated = value.includes(val)
+        ? value.filter((v) => v !== val)
+        : [...value, val];
+      setValue(updated);
+      if (onChange) onChange(updated);
+    },
+    [value, multiSelect, handleClear, onChange]
+  );
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!open) return;
@@ -53,7 +70,7 @@ export function useDropdown(
     if (e.key === "ArrowDown") {
       // 아래로 이동
       setActiveIndex((prev) =>
-        prev === null ? 0 : Math.min(filteredOptions.length, prev + 1)
+        prev === null ? 0 : Math.min(filteredOptions.length - 1, prev + 1)
       );
     } else if (e.key === "ArrowUp") {
       // 위로 이동
@@ -61,7 +78,7 @@ export function useDropdown(
     } else if (e.key === "Enter") {
       // 선택
       if (activeIndex !== null) {
-        if (activeIndex === 0) {
+        if (multiSelect && activeIndex === 0) {
           handleClear();
         } else {
           toggleSelect(filteredOptions[activeIndex].value);

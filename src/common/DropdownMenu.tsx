@@ -11,7 +11,6 @@ const DropdownMenu = () => {
     activeIndex,
     setActiveIndex,
     filteredOptions,
-    handleClear,
     menuPosition,
   } = useDropdownContext();
 
@@ -50,14 +49,6 @@ const DropdownMenu = () => {
           ${getPositionClass()}`}
           onMouseLeave={handleMouseLeave}
         >
-          <li
-            className={`pr-3 py-2 text-gray-600 cursor-pointer hover:bg-gray-100 pl-[33.5px]
-                ${activeIndex === 0 ? "bg-gray-100" : ""}`}
-            onClick={handleClear}
-            onMouseEnter={() => handleMouseEnter(0)}
-          >
-            <span>Clear All</span>
-          </li>
           {filteredOptions.length === 0 ? (
             <li className="px-3 py-2 text-gray-400">No results</li>
           ) : (
@@ -70,10 +61,10 @@ const DropdownMenu = () => {
                     className={`relative group px-3 py-2 text-gray-600 cursor-pointer hover:bg-gray-100 ${
                       selected ? "bg-gray-200 pl-2" : "pl-[33.5px]"
                     }
-                    ${activeIndex === index + 1 ? "bg-gray-100" : ""}
+                    ${activeIndex === index ? "bg-gray-100" : ""}
                     `}
                     onClick={() => toggleSelect(opt.value)}
-                    onMouseEnter={() => handleMouseEnter(index + 1)}
+                    onMouseEnter={() => handleMouseEnter(index)}
                   >
                     {selected && (
                       <span className="text-green-600 px-1 mr-1">✔</span>

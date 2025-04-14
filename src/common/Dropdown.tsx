@@ -55,7 +55,6 @@ export function Dropdown({
     setActiveIndex,
     filteredOptions,
     handleKeyDown,
-    handleClear,
   } = useDropdown(options, initialValue, onChange);
 
   const contextValue = useMemo(
@@ -67,7 +66,6 @@ export function Dropdown({
       activeIndex,
       setActiveIndex,
       filteredOptions,
-      handleClear,
     }),
     [
       open,
@@ -77,7 +75,6 @@ export function Dropdown({
       activeIndex,
       setActiveIndex,
       filteredOptions,
-      handleClear,
     ]
   );
 

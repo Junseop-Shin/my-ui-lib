@@ -13,25 +13,38 @@ export function useDropdown(
 
   const ref = useRef<HTMLDivElement>(null);
 
-  const filteredOptions = useMemo(
-    () =>
-      options.filter((opt) =>
-        opt.label.toLowerCase().includes(query.toLowerCase())
-      ),
-    [options, query]
-  );
+  const filteredOptions = useMemo(() => {
+    const result = options.filter((opt) =>
+      opt.label.toLowerCase().includes(query.toLowerCase())
+    );
+
+    return [
+      {
+        label: "전체 선택 해제",
+        value: "__CLEAR_ALL__",
+        description: "선택된 모든 옵션을 해제합니다.",
+        disabled: value.length === 0,
+      },
+      ...result,
+    ];
+  }, [options, query, value]);
+
+  const handleClear = () => {
+    setValue([]);
+    if (onChange) onChange([]);
+  };
 
   const toggleSelect = (val: string) => {
+    if (val == "__CLEAR_ALL__") {
+      if (value.length === 0) return;
+      handleClear();
+      return;
+    }
     const updated = value.includes(val)
       ? value.filter((v) => v !== val)
       : [...value, val];
     setValue(updated);
     if (onChange) onChange(updated);
-  };
-
-  const handleClear = () => {
-    setValue([]);
-    if (onChange) onChange([]);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -51,7 +64,7 @@ export function useDropdown(
         if (activeIndex === 0) {
           handleClear();
         } else {
-          toggleSelect(filteredOptions[activeIndex - 1].value);
+          toggleSelect(filteredOptions[activeIndex].value);
         }
       }
     } else if (e.key === "Escape") {
@@ -82,6 +95,5 @@ export function useDropdown(
     activeIndex,
     setActiveIndex,
     handleKeyDown,
-    handleClear,
   };
 }

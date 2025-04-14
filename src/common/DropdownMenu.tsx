@@ -2,6 +2,7 @@ import { memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDropdownContext } from "../context/DropdownContext";
 import { DropdownOption } from "./Dropdown";
+import Tooltip from "./Tooltip";
 
 type DropdownMenuProps = { filtered: DropdownOption[] };
 
@@ -21,17 +22,25 @@ const DropdownMenu = ({ filtered }: DropdownMenuProps) => {
           {filtered.length === 0 ? (
             <li className="px-3 py-2 text-gray-400">No results</li>
           ) : (
-            filtered.map((opt) => (
-              <li
-                key={opt.value}
-                className={`px-3 py-2 text-gray-600 cursor-pointer hover:bg-gray-100 ${
-                  value.includes(opt.value) ? "bg-gray-200 font-semibold" : ""
-                }`}
-                onClick={() => toggleSelect(opt.value)}
-              >
-                {opt.label}
-              </li>
-            ))
+            filtered.map((opt) => {
+              const selected = value.includes(opt.value);
+              return (
+                <Tooltip content={opt.description}>
+                  <li
+                    key={opt.value}
+                    className={`relative group px-3 py-2 text-gray-600 cursor-pointer hover:bg-gray-100 ${
+                      selected ? "bg-gray-200 pl-2" : "pl-[33.5px]"
+                    }`}
+                    onClick={() => toggleSelect(opt.value)}
+                  >
+                    {selected && (
+                      <span className="text-green-600 px-1 mr-1">✔</span>
+                    )}
+                    {opt.label}
+                  </li>
+                </Tooltip>
+              );
+            })
           )}
         </motion.ul>
       )}

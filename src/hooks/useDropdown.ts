@@ -6,6 +6,7 @@ export function useDropdown(
 ) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(initialValue ?? []);
+
   const ref = useRef<HTMLDivElement>(null);
 
   const toggleSelect = (val: string) => {

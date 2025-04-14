@@ -25,8 +25,8 @@ export const ButtonDropdown: Story = {
     triggerType: "button",
     placeholder: "ButtonDropdown",
     options: [
-      { label: "사과", value: "apple" },
-      { label: "바나나", value: "banana" },
+      { label: "사과", value: "apple", description: "빨가면 사과" },
+      { label: "바나나", value: "banana", description: "맛있으면 바나나" },
       { label: "오렌지", value: "orange" },
     ],
   },
@@ -37,8 +37,8 @@ export const Secondary: Story = {
     triggerType: "input",
     placeholder: "InputDropdown",
     options: [
-      { label: "사과", value: "apple" },
-      { label: "바나나", value: "banana" },
+      { label: "사과", value: "apple", description: "빨가면 사과" },
+      { label: "바나나", value: "banana", description: "맛있으면 바나나" },
       { label: "오렌지", value: "orange" },
     ],
   },

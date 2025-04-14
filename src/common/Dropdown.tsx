@@ -7,6 +7,7 @@ import { DropdownContext } from "../context/DropdownContext";
 export type DropdownOption = {
   label: string;
   value: string;
+  description?: string;
 };
 
 export type DropdownProps = {
@@ -38,6 +39,7 @@ export function Dropdown({
     onChange
   );
   const [query, setQuery] = useState("");
+  const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
 
   const filteredOptions = useMemo(
     () =>
@@ -50,6 +52,29 @@ export function Dropdown({
     () => ({ open, setOpen, value, toggleSelect }),
     [open, setOpen, value, toggleSelect]
   );
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!open) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHighlightedIndex((prev) =>
+        prev < filteredOptions.length - 1 ? prev + 1 : 0
+      );
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHighlightedIndex((prev) =>
+        prev > 0 ? prev - 1 : filteredOptions.length - 1
+      );
+    } else if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      if (filteredOptions[highlightedIndex]) {
+        toggleSelect(filteredOptions[highlightedIndex].value);
+      }
+    } else if (e.key === "Escape") {
+      setOpen(false);
+    }
+  };
 
   return (
     <DropdownContext.Provider value={contextValue}>
@@ -64,6 +89,7 @@ export function Dropdown({
                 setQuery("");
               }}
               onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
               value={
                 searchable && open
                   ? query
@@ -88,6 +114,7 @@ export function Dropdown({
             <button
               onClick={handleButtonClick}
               className="w-fit text-center border pl-3 pr-9 py-2 rounded cursor-pointer"
+              onKeyDown={handleKeyDown}
             >
               {buttonIcon && <span className="mr-1">{buttonIcon}</span>}
               {buttonLabel}

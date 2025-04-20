@@ -1,5 +1,5 @@
 // context/DropdownContext.tsx
-import { createContext, useContext } from "react";
+import { createContext } from "react";
 import { DropdownOption, DropdownPostion } from "../common/Dropdown";
 
 type DropdownContextType = {
@@ -13,10 +13,6 @@ type DropdownContextType = {
   menuPosition: DropdownPostion;
 };
 
-export const DropdownContext = createContext<DropdownContextType | null>(null);
-
-export function useDropdownContext() {
-  const ctx = useContext(DropdownContext);
-  if (!ctx) throw new Error("DropdownContext must be used within provider");
-  return ctx;
-}
+export const DropdownContext = createContext<DropdownContextType>(
+  null as unknown as DropdownContextType
+);

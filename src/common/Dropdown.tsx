@@ -118,6 +118,7 @@ export function Dropdown({
               placeholder={placeholder}
             />
             <button
+              data-testid="dropdown-toggle-button"
               className="absolute h-full p-2.5 right-1.5 cursor-pointer hover:opacity-50"
               onClick={() => {
                 setOpen((prev) => !prev);
@@ -133,10 +134,15 @@ export function Dropdown({
               onClick={handleButtonClick}
               className="w-fit text-center border pl-3 pr-9 py-2 rounded cursor-pointer"
             >
-              {buttonIcon && <span className="mr-1">{buttonIcon}</span>}
-              {buttonLabel}
+              {buttonIcon && (
+                <span data-testid="dropdown-button-icon" className="mr-1">
+                  {buttonIcon}
+                </span>
+              )}
+              {!buttonIcon && buttonLabel}
             </button>
             <button
+              data-testid="dropdown-toggle-button"
               className="absolute right-1 top-1 p-2.5 cursor-pointer hover:opacity-50"
               onClick={() => setOpen((prev) => !prev)}
             >

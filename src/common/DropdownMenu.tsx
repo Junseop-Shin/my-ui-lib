@@ -54,18 +54,18 @@ const DropdownMenu = ({ ...props }: DropdownMenuProps) => {
           transition={{ duration: 0.15 }}
           className={`absolute w-full bg-white border rounded shadow-lg mt-1 max-h-60 min-w-[200px] overflow-auto z-10
           ${getPositionClass()}`}
+          data-testid="dropdown-menu"
           onMouseLeave={handleMouseLeave}
           {...props}
         >
           {filteredOptions.length === 0 ? (
-            <li className="px-3 py-2 text-gray-400">No results</li>
+            <li className="pr-3 py-2 text-gray-400 pl-[33.5px]">No results</li>
           ) : (
             filteredOptions.map((opt, index) => {
               const selected = value.includes(opt.value);
               return (
-                <Tooltip content={opt.description}>
+                <Tooltip content={opt.description} key={opt.value}>
                   <li
-                    key={opt.value}
                     className={`relative group px-3 py-2 text-gray-600 cursor-pointer hover:bg-gray-100 ${
                       selected ? "bg-gray-200 pl-2" : "pl-[33.5px]"
                     }

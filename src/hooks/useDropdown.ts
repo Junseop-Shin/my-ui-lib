@@ -1,4 +1,11 @@
-import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+  useDeferredValue,
+} from "react";
 import { DropdownOption } from "../common/Dropdown";
 
 export function useDropdown(
@@ -11,12 +18,12 @@ export function useDropdown(
   const [value, setValue] = useState(initialValue ?? []);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [query, setQuery] = useState("");
-
+  const deferredQuery = useDeferredValue(query);
   const ref = useRef<HTMLDivElement>(null);
 
   const filteredOptions = useMemo(() => {
     const result = options.filter((opt) =>
-      opt.label.toLowerCase().includes(query.toLowerCase())
+      opt.label.toLowerCase().includes(deferredQuery.toLowerCase())
     );
 
     // multiSelect가 아닐 때는 Clear All 버튼을 포함하지 않음
@@ -33,17 +40,17 @@ export function useDropdown(
       },
       ...result,
     ];
-  }, [options, query, value, multiSelect]);
+  }, [options, deferredQuery, value, multiSelect]);
 
   const handleClear = useCallback(() => {
     setValue([]);
-    if (onChange) onChange([]);
+    onChange?.([]);
   }, [setValue, onChange]);
 
   const toggleSelect = useCallback(
     (val: string) => {
       if (!multiSelect) {
-        if (onChange) onChange([val]);
+        onChange?.([val]);
         setValue([val]);
         setTimeout(() => {
           setOpen(false);
@@ -59,44 +66,54 @@ export function useDropdown(
         ? value.filter((v) => v !== val)
         : [...value, val];
       setValue(updated);
-      if (onChange) onChange(updated);
+      onChange?.(updated);
     },
     [value, multiSelect, handleClear, onChange]
   );
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowDown") {
-      if (!open) {
-        return;
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      switch (e.key) {
+        case "ArrowDown":
+          if (!open) {
+            return;
+          }
+          // 아래로 이동
+          setActiveIndex((prev) =>
+            prev === null ? 0 : Math.min(filteredOptions.length - 1, prev + 1)
+          );
+          break;
+        case "ArrowUp":
+          // 위로 이동
+          if (!open) {
+            return;
+          }
+          setActiveIndex((prev) => (prev === null ? 0 : Math.max(0, prev - 1)));
+          break;
+        case "Enter":
+          if (!open) {
+            setOpen(true);
+            return;
+          }
+          // 선택
+          if (activeIndex !== null) {
+            if (multiSelect && activeIndex === 0) {
+              handleClear();
+            } else {
+              toggleSelect(filteredOptions[activeIndex].value);
+            }
+          }
+          break;
+        case "Escape":
+          // 닫기
+          setOpen(false);
+          break;
+        default:
+          break;
       }
-      // 아래로 이동
-      setActiveIndex((prev) =>
-        prev === null ? 0 : Math.min(filteredOptions.length - 1, prev + 1)
-      );
-    } else if (e.key === "ArrowUp") {
-      // 위로 이동
-      if (!open) {
-        return;
-      }
-      setActiveIndex((prev) => (prev === null ? 0 : Math.max(0, prev - 1)));
-    } else if (e.key === "Enter") {
-      if (!open) {
-        setOpen(true);
-        return;
-      }
-      // 선택
-      if (activeIndex !== null) {
-        if (multiSelect && activeIndex === 0) {
-          handleClear();
-        } else {
-          toggleSelect(filteredOptions[activeIndex].value);
-        }
-      }
-    } else if (e.key === "Escape") {
-      // 닫기
-      setOpen(false);
-    }
-  };
+    },
+    [open, activeIndex, multiSelect, filteredOptions, handleClear, toggleSelect]
+  );
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {

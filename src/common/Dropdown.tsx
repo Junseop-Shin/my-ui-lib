@@ -85,7 +85,7 @@ export function Dropdown({
   );
 
   return (
-    <DropdownContext.Provider value={{ ...contextValue, menuPosition }}>
+    <DropdownContext value={{ ...contextValue, menuPosition }}>
       <div
         className="relative"
         onKeyDown={handleKeyDown}
@@ -152,6 +152,6 @@ export function Dropdown({
         )}
         <DropdownMenu />
       </div>
-    </DropdownContext.Provider>
+    </DropdownContext>
   );
 }

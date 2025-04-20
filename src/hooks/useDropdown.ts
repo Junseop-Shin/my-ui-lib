@@ -65,17 +65,25 @@ export function useDropdown(
   );
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!open) return;
-
     if (e.key === "ArrowDown") {
+      if (!open) {
+        return;
+      }
       // 아래로 이동
       setActiveIndex((prev) =>
         prev === null ? 0 : Math.min(filteredOptions.length - 1, prev + 1)
       );
     } else if (e.key === "ArrowUp") {
       // 위로 이동
+      if (!open) {
+        return;
+      }
       setActiveIndex((prev) => (prev === null ? 0 : Math.max(0, prev - 1)));
     } else if (e.key === "Enter") {
+      if (!open) {
+        setOpen(true);
+        return;
+      }
       // 선택
       if (activeIndex !== null) {
         if (multiSelect && activeIndex === 0) {

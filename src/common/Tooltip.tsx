@@ -35,6 +35,7 @@ const Tooltip = ({ children, content, ...props }: TooltipProps) => {
       {show &&
         createPortal(
           <div
+            data-testid="tooltip"
             className="fixed bg-black text-white text-xs px-2 py-1 rounded shadow z-50"
             style={{ top: position.top, left: position.left }}
             {...props}

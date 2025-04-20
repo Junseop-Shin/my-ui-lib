@@ -54,6 +54,7 @@ const DropdownMenu = ({ ...props }: DropdownMenuProps) => {
           transition={{ duration: 0.15 }}
           className={`absolute w-full bg-white border rounded shadow-lg mt-1 max-h-60 min-w-[200px] overflow-auto z-10
           ${getPositionClass()}`}
+          data-testid="dropdown-menu"
           onMouseLeave={handleMouseLeave}
           {...props}
         >

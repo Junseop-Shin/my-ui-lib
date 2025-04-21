@@ -9,12 +9,15 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "test": "storybook build --quiet && test-storybook",
+    "test": "test-storybook",
     "build-storybook": "storybook build",
     "chromatic": "npx chromatic --CHROMATIC_PROJECT_TOKEN",
     "prepare": "husky install"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.7.0",
+    "@tanstack/react-table": "^8.21.3",
+    "date-fns": "^4.1.0",
     "motion": "^12.6.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

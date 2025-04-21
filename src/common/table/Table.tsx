@@ -35,6 +35,7 @@ export function Table<T extends object>({ data, columns }: TableProps<T>) {
                       <button
                         onClick={header.column.getToggleSortingHandler()}
                         className="flex w-full items-center gap-1 select-none justify-between"
+                        data-testid={`sort-button-${header.id}`}
                       >
                         {flexRender(
                           header.column.columnDef.header,

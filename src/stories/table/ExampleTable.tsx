@@ -21,6 +21,8 @@ const columns: ColumnDef<Person>[] = [
         <input
           type="checkbox"
           checked={table.getIsAllRowsSelected()}
+          role="checkbox"
+          data-testid="select-all-checkbox"
           // @ts-expect-error: 동작은 정상이나 tanstack과 input onChange간 타입 충돌 발생
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             table.getToggleAllRowsSelectedHandler()(e)
@@ -33,6 +35,8 @@ const columns: ColumnDef<Person>[] = [
         <input
           type="checkbox"
           checked={row.getIsSelected()}
+          role="checkbox"
+          data-testid={`select-row-checkbox-${row.id}`}
           // @ts-expect-error: 동작은 정상이나 tanstack과 input onChange간 타입 충돌 발생
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             row.getToggleSelectedHandler()(e)
@@ -54,6 +58,7 @@ const columns: ColumnDef<Person>[] = [
     accessorKey: "years",
     header: "연차",
     cell: (info) => `${info.getValue()}년`,
+    sortDescFirst: false,
   },
   {
     accessorKey: "date",

@@ -29,9 +29,12 @@ export function Table<T extends object>({ data, columns }: TableProps<T>) {
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className="text-left text-sm font-medium text-gray-700 px-3 py-2 border-b"
+                    className="relative text-left text-sm font-medium text-gray-700 px-3 py-2 border-b"
+                    style={{
+                      width: header.getSize(),
+                    }}
                   >
-                    {header.isPlaceholder ? null : (
+                    {!header.isPlaceholder && (
                       <button
                         onClick={header.column.getToggleSortingHandler()}
                         className="flex w-full items-center gap-1 select-none justify-between"
@@ -48,6 +51,19 @@ export function Table<T extends object>({ data, columns }: TableProps<T>) {
                         )}
                       </button>
                     )}
+                    <div
+                      onMouseDown={header.getResizeHandler()}
+                      onTouchStart={header.getResizeHandler()}
+                      className={`resizer w-1 h-full absolute right-0.5 top-0 transform translate-x-1/2 bg-gray-200 
+                        ${
+                          header.column.getCanResize()
+                            ? header.column.getIsResizing()
+                              ? "cursor-col-resize"
+                              : "cursor-ew-resize"
+                            : "cursor-default"
+                        }`}
+                      data-testid={`resizer-${header.id}`}
+                    />
                   </th>
                 ))}
               </tr>

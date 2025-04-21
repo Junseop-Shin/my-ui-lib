@@ -169,6 +169,34 @@ export const ToggleColumnVisibility: TableStory = {
   },
 };
 
+// column resize test
+export const TableColumnResize: TableStory = {
+  args: {
+    data: generatePeople(10),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // '이름' 헤더 셀의 리사이저를 찾음
+    const resizer = canvas.getByTestId("resizer-name");
+    const header = resizer.closest("th")!;
+    const initialWidth = parseInt(header.style.width || "0");
+
+    // 마우스 드래그 시뮬레이션
+    await userEvent.pointer([
+      { keys: "[MouseLeft>]", target: resizer },
+      { coords: { x: 40, y: 0 } },
+      { keys: "[/MouseLeft]" },
+    ]);
+
+    const newWidth = parseInt(header.style.width || "0");
+
+    await waitFor(() => {
+      expect(newWidth).toBeGreaterThan(initialWidth);
+    });
+  },
+};
+
 // // combined interaction test
 // export const CombinedInteraction: TableStory = {
 //   args: {

@@ -26,6 +26,7 @@ export const useTable = <T extends object>(
     onRowSelectionChange: setRowSelection,
     onColumnVisibilityChange: setColumnVisibility,
     enableRowSelection: true,
+    columnResizeMode: "onChange",
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),

@@ -18,10 +18,15 @@ UI 컴포넌트 만들기
 <details>
   <summary>📋 테이블 (예정)</summary>
   <div class="table-content">
-    ❌ 정렬 기능<br>
+    ✅ 체크박스 선택(Row Selection)<br>
+    ✅ 정렬 기능(Column Sorting)<br>
+    ✅ 열 선택 기능(Column Visibility)<br>
+    ✅ 열 Resize 기능<br>
+    ❌ 열 순서변경 기능<br>
     ❌ 페이지네이션<br>
+    ❌ 무한 스크롤<br>
+    ❌ 열 필터링<br>
     ❌ 셀 커스텀 렌더링<br>
-    ❌ 체크박스 선택<br>
     ❌ 행 클릭 이벤트
   </div>
 </details>

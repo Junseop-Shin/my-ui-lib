@@ -49,6 +49,9 @@ const columns: ColumnDef<Person>[] = [
   {
     accessorKey: "company",
     header: "회사",
+    enableResizing: true,
+    minSize: 100,
+    maxSize: 200,
   },
   {
     accessorKey: "name",

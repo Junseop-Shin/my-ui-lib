@@ -45,12 +45,20 @@ export function useDropdown(
   const handleClear = useCallback(() => {
     setValue([]);
     onChange?.([]);
-  }, [setValue, onChange]);
+    options.forEach((opt) => {
+      opt.selected = false;
+    });
+  }, [setValue, onChange, options]);
 
   const toggleSelect = useCallback(
-    (val: string) => {
+    (option: DropdownOption) => {
+      const val = option.value;
       if (!multiSelect) {
+        options.forEach((opt) => {
+          opt.selected = opt.value === val;
+        });
         onChange?.([val]);
+        option.handleClick?.();
         setValue([val]);
         setTimeout(() => {
           setOpen(false);
@@ -67,8 +75,10 @@ export function useDropdown(
         : [...value, val];
       setValue(updated);
       onChange?.(updated);
+      option.handleClick?.();
+      option.selected = !option.selected;
     },
-    [value, multiSelect, handleClear, onChange]
+    [value, multiSelect, handleClear, onChange, options]
   );
 
   const handleKeyDown = useCallback(
@@ -100,7 +110,7 @@ export function useDropdown(
             if (multiSelect && activeIndex === 0) {
               handleClear();
             } else {
-              toggleSelect(filteredOptions[activeIndex].value);
+              toggleSelect(filteredOptions[activeIndex]);
             }
           }
           break;

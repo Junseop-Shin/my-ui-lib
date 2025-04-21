@@ -43,6 +43,14 @@ export const InputDropdown: DropdownStory = {
       expect(input).toHaveValue("사과");
     });
 
+    // 3-1. 다른 옵션 선택 시 한개만 선택되는지 확인(not multiSelect)
+    const option2 = await canvas.findByText("바나나");
+    await userEvent.click(option2);
+    await waitFor(() => {
+      expect(input).toHaveValue("바나나");
+      expect(input).not.toHaveValue("사과");
+    });
+
     // 4. 검색 기능 기본 테스트
     await userEvent.type(input, "바");
     await waitFor(() => {

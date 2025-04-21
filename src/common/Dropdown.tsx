@@ -8,6 +8,8 @@ export type DropdownOption = {
   label: string;
   value: string;
   description?: string;
+  selected?: boolean;
+  handleClick?: () => void;
 };
 
 export type DropdownPostion =
@@ -119,7 +121,7 @@ export function Dropdown({
             />
             <button
               data-testid="dropdown-toggle-button"
-              className="absolute h-full p-2.5 right-1.5 cursor-pointer hover:opacity-50"
+              className="absolute h-full right-2 cursor-pointer hover:opacity-50"
               onClick={() => {
                 setOpen((prev) => !prev);
                 setQuery("");
@@ -143,7 +145,7 @@ export function Dropdown({
             </button>
             <button
               data-testid="dropdown-toggle-button"
-              className="absolute right-1 top-1 p-2.5 cursor-pointer hover:opacity-50"
+              className="absolute right-2 h-full cursor-pointer hover:opacity-50"
               onClick={() => setOpen((prev) => !prev)}
             >
               <ChevronIcon direction={open ? "up" : "down"} />

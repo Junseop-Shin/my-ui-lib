@@ -10,7 +10,6 @@ interface DropdownMenuProps extends HTMLMotionProps<"ul"> {
 const DropdownMenu = ({ ...props }: DropdownMenuProps) => {
   const {
     open,
-    value,
     toggleSelect,
     activeIndex,
     setActiveIndex,
@@ -62,20 +61,19 @@ const DropdownMenu = ({ ...props }: DropdownMenuProps) => {
             <li className="px-3 py-2 text-gray-400 disabled">No results</li>
           ) : (
             filteredOptions.map((opt, index) => {
-              const selected = value.includes(opt.value);
               return (
                 <Tooltip content={opt.description}>
                   <li
                     key={opt.value}
                     className={`relative group px-3 py-2 text-gray-600 cursor-pointer hover:bg-gray-100 ${
-                      selected ? "bg-gray-200 pl-2" : "pl-[33.5px]"
+                      opt.selected ? "bg-gray-200 pl-2" : "pl-[33.5px]"
                     }
                     ${activeIndex === index ? "bg-gray-100" : ""}
                     `}
-                    onClick={() => toggleSelect(opt.value)}
+                    onClick={() => toggleSelect(opt)}
                     onMouseEnter={() => handleMouseEnter(index)}
                   >
-                    {selected && (
+                    {opt.selected && (
                       <span className="text-green-600 px-1 mr-1">✔</span>
                     )}
                     {opt.label}

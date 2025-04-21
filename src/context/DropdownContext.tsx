@@ -6,7 +6,7 @@ type DropdownContextType = {
   open: boolean;
   setOpen: (val: boolean) => void;
   value: string[];
-  toggleSelect: (val: string) => void;
+  toggleSelect: (option: DropdownOption) => void;
   filteredOptions: DropdownOption[];
   activeIndex: number | null;
   setActiveIndex: (val: number | null) => void;

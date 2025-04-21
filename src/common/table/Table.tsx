@@ -7,6 +7,7 @@ import {
   ColumnDef,
 } from "@tanstack/react-table";
 import { useState } from "react";
+import TableHeaderSortButton from "./TableHeaderSortButton";
 
 type TableProps<T> = {
   data: T[];
@@ -39,12 +40,22 @@ export function Table<T extends object>({ data, columns }: TableProps<T>) {
                   key={header.id}
                   className="text-left text-sm font-medium text-gray-700 px-3 py-2 border-b"
                 >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
+                  {header.isPlaceholder ? null : (
+                    <button
+                      onClick={header.column.getToggleSortingHandler()}
+                      className="flex w-full items-center gap-1 select-none justify-between"
+                    >
+                      {flexRender(
                         header.column.columnDef.header,
                         header.getContext()
                       )}
+                      {header.column.getCanSort() && (
+                        <TableHeaderSortButton
+                          sort={header.column.getIsSorted()}
+                        />
+                      )}
+                    </button>
+                  )}
                 </th>
               ))}
             </tr>

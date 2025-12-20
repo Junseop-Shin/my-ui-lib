@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import StockChart from '@/components/StockChart';
+import StockChart from '@/components/complex/StockChart';
 
 // Mock Data
 const generateData = (count: number) => {
@@ -31,5 +31,17 @@ export const Default: Story = {
     args: {
         data,
         height: 500,
+    },
+};
+
+export const WithReferenceLine: Story = {
+    args: {
+        data,
+        height: 500,
+        referenceLine: {
+            y: 100,
+            label: 'Buy Price',
+            color: 'green',
+        },
     },
 };

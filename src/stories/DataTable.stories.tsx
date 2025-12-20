@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { DataTable } from '@/components/DataTable';
+import { DataTable } from '@/components/complex/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
 
 // Mock Data

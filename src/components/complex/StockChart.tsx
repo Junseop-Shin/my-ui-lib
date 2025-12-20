@@ -8,6 +8,7 @@ import {
     ResponsiveContainer,
     BarChart,
     Bar,
+    ReferenceLine,
 } from "recharts";
 import { useChartData, type ChartDataPoint } from "@/hooks/useChartData";
 
@@ -16,9 +17,14 @@ export type StockData = ChartDataPoint;
 interface StockChartProps {
     data: StockData[];
     height?: number;
+    referenceLine?: {
+        y: number;
+        label?: string;
+        color?: string;
+    };
 }
 
-const StockChart = ({ data, height = 500 }: StockChartProps) => {
+const StockChart = ({ data, height = 500, referenceLine }: StockChartProps) => {
     const { formattedData, lineColor, barColor, trend } = useChartData(data);
 
     return (
@@ -57,6 +63,18 @@ const StockChart = ({ data, height = 500 }: StockChartProps) => {
                             dot={false}
                             animationDuration={500}
                         />
+                        {referenceLine && (
+                            <ReferenceLine
+                                y={referenceLine.y}
+                                label={{
+                                    value: referenceLine.label,
+                                    fill: referenceLine.color || "var(--color-destructive)",
+                                    position: 'insideTopRight'
+                                }}
+                                stroke={referenceLine.color || "var(--color-destructive)"}
+                                strokeDasharray="3 3"
+                            />
+                        )}
                     </LineChart>
                 </ResponsiveContainer>
             </div>

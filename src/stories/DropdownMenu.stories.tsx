@@ -17,7 +17,7 @@ import { Button } from '@/components/Button';
 import { User, CreditCard, Settings, Keyboard, Users, UserPlus, Mail, MessageSquare, PlusCircle, Plus, Github, LifeBuoy, Cloud, LogOut } from 'lucide-react';
 
 const meta: Meta<typeof DropdownMenu> = {
-    title: 'Atomic/DropdownMenu',
+    title: 'Complex/DropdownMenu',
     component: DropdownMenu,
     tags: ['autodocs'],
 };

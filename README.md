@@ -76,7 +76,19 @@ import { StockChart } from 'my-ui-lib';
 <StockChart data={stockData} height={400} />
 ```
 
-#### 3. useResponsive (Hook)
+#### 3. PieChart
+심플하고 직관적인 파이 차트입니다. 범례와 툴팁이 기본 포함되어 있습니다.
+
+```tsx
+import { PieChart } from 'my-ui-lib';
+
+<PieChart 
+  data={[{ name: 'A', value: 100 }, { name: 'B', value: 200 }]} 
+  height={300} 
+/>
+```
+
+#### 4. useResponsive (Hook)
 현재 뷰포트 상태를 손쉽게 파악하세요.
 
 ```tsx
@@ -93,6 +105,9 @@ npm install
 
 # 스토리북 실행 (문서 및 테스트)
 npm run storybook
+
+# 유닛 테스트 실행 (Vitest)
+npm run test
 
 # 빌드
 npm run build

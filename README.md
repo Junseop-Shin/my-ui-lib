@@ -1,78 +1,102 @@
-UI 컴포넌트 만들기
+# My UI Library (Finance Design System)
 
-- 버튼/헤더/페이지(스토리북 기본제공)
-<details>
-  <summary>⬇️ 드롭다운</summary>
-  <div class="dropdown-content">
-    ✅ 트리거 타입 (버튼 / 인풋)<br>
-    ✅ 옵션 검색<br>
-    ✅ 다중 선택<br>
-    ✅ 선택 값 표시<br>
-    ✅ 외부 클릭 시 닫기<br>
-    ✅ 메뉴 포지션 지정 (좌/우/상/하)<br>
-    ✅ 툴팁 표시 (옵션 설명)<br>
-    ✅ 키보드 네비게이션<br>
-    ❌ Submenu 지원(예정)
-  </div>
-</details>
-<details>
-  <summary>📋 테이블 (예정)</summary>
-  <div class="table-content">
-    ❌ 정렬 기능<br>
-    ❌ 페이지네이션<br>
-    ❌ 셀 커스텀 렌더링<br>
-    ❌ 체크박스 선택<br>
-    ❌ 행 클릭 이벤트
-  </div>
-</details>
-<details>
-  <summary>📊 차트 (예정)</summary>
-  <div class="chart-content">
-    ❌ 라인 차트 / 바 차트 / 파이 차트<br>
-    ❌ 데이터 포맷팅<br>
-    ❌ 툴팁/범례 커스터마이징
-  </div>
-</details>
-<details>
-  <summary>🪟 모달 (예정)</summary>
-  <div class="modal-content">
-    ❌ 포커스 트랩<br>
-    ❌ ESC 키 닫기<br>
-    ❌ 사이즈 지정
-  </div>
-</details>
-<details>
-  <summary>🔔 토스트 (예정)</summary>
-  <div class="toast-content">
-    ❌ 다중 토스트 큐 관리<br>
-    ❌ auto-dismiss<br>
-    ❌ 위치 설정 (top-right 등)<br>
-    ❌ 커스텀 아이콘/색상
-  </div>
-</details>
+**React 19+, TypeScript, Tailwind CSS, Radix UI** 기반의 강력한 디자인 시스템 라이브러리입니다.
+금융권(Fintech) 서비스에 최적화된 테마 시스템과 데이터 시각화 컴포넌트를 제공합니다.
 
-기술
+## 🚀 시작하기 (Getting Started)
 
-- Vite로 프로젝트 생성(CRA 대체)
-- React, Typescript
-- Tailwind
-- vite 빌드
-- Storybook
+### 설치 (Installation)
 
-기능
+```bash
+npm install my-ui-lib
+# 또는
+yarn add my-ui-lib
+```
 
-- Storybook을 이용한 독립 개발
-- Storybook을 이용한 테스트
-  - Interaction 테스트
-  - Visual 테스트(chromatic)
-  - Accessibility 테스트
+### 필수 의존성 (Peer Dependencies)
 
-추가/수정하면 좋은 기능/컴포넌트
+이 라이브러리는 다음 패키지들을 필요로 합니다:
+- `react`, `react-dom` (v18 이상)
+- `tailwindcss` (v4 권장)
+- `lucide-react` (아이콘)
 
-- 디자인 시스템 적용
+## 🎨 테마 시스템 (Theme System)
 
-  - Spacing/Color/Typography
-  - Icon
-  - Button
+3가지 테마를 기본 지원하며, CSS 변수를 통해 커스터마이징 가능합니다.
 
-- 다크모드/반응형 디자인 반영
+1. **Light**: 깔끔한 화이트/슬레이트 그레이 조합
+2. **Dark**: 눈이 편안한 다크 그레이 조합
+3. **Finance**: 신뢰감을 주는 네이비/블루 조합 (블룸버그 스타일)
+
+### 설정 방법 (Setup)
+
+앱 최상단에 `ThemeProvider`를 감싸주세요.
+
+```tsx
+import { ThemeProvider } from 'my-ui-lib/context';
+
+function App() {
+  return (
+    <ThemeProvider defaultTheme="finance" storageKey="my-app-theme">
+      <YourApp />
+    </ThemeProvider>
+  );
+}
+```
+
+## 🧩 주요 컴포넌트 (Components)
+
+### Atomic Components
+- **Button**: `intent`와 `size` props로 다양한 스타일 지원 (Primary, Secondary, Danger, Ghost).
+- **Input**: Label, HelperText, Error 상태가 통합된 Accessible Input.
+- **DropdownMenu**: Radix UI 기반의 강력한 드롭다운 (Submenu 지원).
+- **Label**: 접근성을 고려한 라벨 컴포넌트.
+- **Icon**: Lucide 아이콘을 래핑하여 일관된 스타일링 제공.
+
+### Complex Components & Hooks
+
+#### 1. DataTable & useDataTable
+TanStack Table 기반의 강력한 데이터 테이블입니다.
+
+```tsx
+import { DataTable, useDataTable } from 'my-ui-lib';
+
+const { table, globalFilter, setGlobalFilter } = useDataTable({ data, columns });
+
+return <DataTable table={table} filter={globalFilter} onFilterChange={setGlobalFilter} />;
+```
+
+#### 2. StockChart & useChartData
+Recharts 기반의 반응형 주식 차트입니다. 상승(Success)/하락(Danger)에 따라 색상이 자동 변경됩니다.
+
+```tsx
+import { StockChart } from 'my-ui-lib';
+
+// 데이터만 넣으면 로직이 알아서 처리합니다.
+<StockChart data={stockData} height={400} />
+```
+
+#### 3. useResponsive (Hook)
+현재 뷰포트 상태를 손쉽게 파악하세요.
+
+```tsx
+import { useResponsive } from 'my-ui-lib/hooks';
+
+const { isMobile, isDesktop } = useResponsive();
+```
+
+## 🛠 개발 및 기여 (Development)
+
+```bash
+# 의존성 설치
+npm install
+
+# 스토리북 실행 (문서 및 테스트)
+npm run storybook
+
+# 빌드
+npm run build
+```
+
+## 📄 라이선스 (License)
+MIT

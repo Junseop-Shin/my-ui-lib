@@ -24,7 +24,7 @@ interface StockChartProps {
     };
 }
 
-const StockChart = ({ data, height = 500, referenceLine }: StockChartProps) => {
+export function StockChart({ data, height = 500, referenceLine }: StockChartProps) {
     const { formattedData, lineColor, barColor, trend } = useChartData(data);
 
     return (
@@ -103,6 +103,4 @@ const StockChart = ({ data, height = 500, referenceLine }: StockChartProps) => {
             </div>
         </div>
     );
-};
-
-export default StockChart;
+}

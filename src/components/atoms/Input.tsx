@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { Label } from "@/components/atoms/Label";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -18,12 +19,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="grid w-full max-w-sm items-center gap-1.5">
         {label && (
-          <label
+          <Label
             htmlFor={inputId}
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            className="mb-2" // Add margin for spacing if needed, keeping existing styles via Label atom
           >
             {label}
-          </label>
+          </Label>
         )}
         <input
           type={type}

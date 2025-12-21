@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { DataTable } from '@/components/complex/DataTable';
+import { DataTable } from '@/components/organisms/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
 
 // Mock Data
@@ -41,7 +41,7 @@ const data: Payment[] = Array.from({ length: 20 }, (_, i) => ({
 }));
 
 const meta: Meta<typeof DataTable> = {
-    title: 'Complex/DataTable',
+    title: 'Organisms/DataTable',
     component: DataTable,
     tags: ['autodocs'],
 };

@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import * as React from "react";
+import { Icon } from "@/components/atoms/Icon";
 
 import {
   Table,
@@ -17,9 +18,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/Table";
-import { Input } from "@/components/Input";
-import { Button } from "@/components/Button";
+} from "@/components/molecules/Table";
+import { Input } from "@/components/atoms/Input";
+import { Button } from "@/components/atoms/Button";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -73,12 +74,12 @@ export function DataTable<TData, TValue>({
                         )}
                       {header.column.getCanSort() && (
                         <Button
-                          intent="ghost"
+                          variant="ghost"
                           size="sm"
                           onClick={() => header.column.toggleSorting(header.column.getIsSorted() === "asc")}
                           className="-ml-3 h-8 data-[state=open]:bg-accent"
                         >
-                          <ArrowUpDown className="ml-2 h-4 w-4" />
+                          <Icon icon={ArrowUpDown} className="ml-2 h-4 w-4" />
                         </Button>
                       )}
                     </TableHead>

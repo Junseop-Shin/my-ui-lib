@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Icon } from '@/components/Icon';
+import { Icon } from '@/components/atoms/Icon';
 import { Bell, Heart, Home } from 'lucide-react';
 
 const meta: Meta<typeof Icon> = {
-    title: 'Atomic/Icon',
+    title: 'Atoms/Icon',
     component: Icon,
     tags: ['autodocs'],
 };

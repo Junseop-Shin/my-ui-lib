@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import StockChart from '@/components/complex/StockChart';
+import { StockChart } from '@/components/organisms/StockChart';
 
 // Mock Data
 const generateData = (count: number) => {
@@ -19,7 +19,7 @@ const generateData = (count: number) => {
 const data = generateData(50);
 
 const meta: Meta<typeof StockChart> = {
-    title: 'Complex/StockChart',
+    title: 'Organisms/StockChart',
     component: StockChart,
     tags: ['autodocs'],
 };

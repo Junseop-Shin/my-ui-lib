@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { RadioGroup, RadioGroupItem } from '@/components/RadioGroup';
+import { RadioGroup, RadioGroupItem } from '@/components/atoms/RadioGroup';
 // import { Label } from '@/components/Label'; // Or usage of generic label
 
 const meta: Meta<typeof RadioGroup> = {
-  title: 'Atomic/RadioGroup',
+  title: 'Atoms/RadioGroup',
   component: RadioGroup,
   tags: ['autodocs'],
 };

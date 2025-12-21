@@ -12,12 +12,12 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuSubContent,
     DropdownMenuPortal,
-} from '@/components/DropdownMenu';
-import { Button } from '@/components/Button';
+} from '@/components/molecules/DropdownMenu';
+import { Button } from '@/components/atoms/Button';
 import { User, CreditCard, Settings, Keyboard, Users, UserPlus, Mail, MessageSquare, PlusCircle, Plus, Github, LifeBuoy, Cloud, LogOut } from 'lucide-react';
 
 const meta: Meta<typeof DropdownMenu> = {
-    title: 'Complex/DropdownMenu',
+    title: 'Molecules/DropdownMenu',
     component: DropdownMenu,
     tags: ['autodocs'],
 };
@@ -29,7 +29,7 @@ export const Default: Story = {
     render: () => (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button intent="secondary">Open Menu</Button>
+                <Button variant="outline">Open Menu</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>

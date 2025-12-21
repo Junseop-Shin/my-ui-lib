@@ -52,7 +52,7 @@ export function DataTable<TData, TValue>({
     <div className="space-y-4">
       <div className="flex items-center">
         <Input
-          placeholder="Filter..."
+          placeholder="필터..."
           value={globalFilter ?? ""}
           onChange={(event) => setGlobalFilter(event.target.value)}
           className="max-w-sm"
@@ -111,7 +111,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  결과가 없습니다.
                 </TableCell>
               </TableRow>
             )}

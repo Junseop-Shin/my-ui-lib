@@ -2,14 +2,23 @@ import { GripVertical } from 'lucide-react';
 import React from 'react';
 import { Icon } from '@/components/atoms/Icon';
 
-const nodeTypes = [
-    { type: 'input', label: 'Time Trigger', description: 'Schedule execution' },
-    { type: 'condition', label: 'Condition', description: 'If/Else logic' },
-    { type: 'action', label: 'Buy Order', description: 'Execute Buy' },
-    { type: 'action', label: 'Sell Order', description: 'Execute Sell' },
-];
+export interface NodeType {
+    type: string;
+    label: string;
+    description: string;
+}
 
-export function NodePalette() {
+export interface NodePaletteProps {
+    nodeTypes: NodeType[];
+    title?: string;
+    description?: string;
+}
+
+export function NodePalette({
+    nodeTypes,
+    title = "노드 라이브러리",
+    description = "노드를 캔버스로 드래그하세요"
+}: NodePaletteProps) {
     const onDragStart = (event: React.DragEvent, nodeType: string, nodeLabel: string) => {
         event.dataTransfer.setData('application/reactflow/type', nodeType);
         event.dataTransfer.setData('application/reactflow/label', nodeLabel);
@@ -19,8 +28,8 @@ export function NodePalette() {
     return (
         <div className="w-64 border-r border-slate-800 bg-slate-900/50 p-4 flex flex-col gap-4">
             <div>
-                <h3 className="text-sm font-medium text-slate-300 mb-1">Nodes Library</h3>
-                <p className="text-xs text-slate-500">Drag nodes to the canvas</p>
+                <h3 className="text-sm font-medium text-slate-300 mb-1">{title}</h3>
+                <p className="text-xs text-slate-500">{description}</p>
             </div>
 
             <div className="space-y-3">

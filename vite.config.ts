@@ -27,11 +27,19 @@ export default defineConfig({
       fileName: (format) => `my-ui-lib.${format}.js`
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'tailwindcss'],
+      external: [
+        'react',
+        'react-dom',
+        'next',
+        'lucide-react',
+        '@xyflow/react',
+        'tailwindcss'
+      ],
       output: {
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',
+          '@xyflow/react': 'ReactFlow',
           tailwindcss: 'tailwindcss'
         }
       }

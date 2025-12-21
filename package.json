@@ -1,7 +1,6 @@
 {
   "name": "@junseop-shin/my-ui-lib",
-  "private": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "main": "./dist/my-ui-lib.umd.js",
   "module": "./dist/my-ui-lib.es.js",

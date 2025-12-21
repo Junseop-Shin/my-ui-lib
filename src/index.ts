@@ -49,9 +49,12 @@ export {
 
 // Organisms
 export { Sidebar } from './components/organisms/Sidebar';
+export type { SidebarProps, SidebarMenuItem } from './components/organisms/Sidebar';
 export { Header } from './components/organisms/Header';
+export type { HeaderProps } from './components/organisms/Header';
 export { PropertyPanel } from './components/organisms/PropertyPanel';
 export { NodePalette } from './components/organisms/NodePalette';
+export type { NodePaletteProps, NodeType } from './components/organisms/NodePalette';
 export { DataTable } from './components/organisms/DataTable';
 export { StockChart } from './components/organisms/StockChart';
 export { PieChart } from './components/organisms/PieChart';

@@ -19,4 +19,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+    args: {
+        user: { name: '개발자', role: '관리자' },
+        searchPlaceholder: '시장 또는 전략 검색...',
+    }
+};

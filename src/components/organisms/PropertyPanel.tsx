@@ -24,14 +24,14 @@ export function PropertyPanel({ selectedNode, onClose, onSave }: PropertyPanelPr
     return (
         <div className="w-80 border-l border-slate-800 bg-slate-900/90 backdrop-blur p-4 flex flex-col h-full absolute right-0 top-0 z-10 transition-transform shadow-2xl">
             <div className="flex items-center justify-between mb-6 border-b border-slate-800 pb-4">
-                <h3 className="text-sm font-medium text-white">Properties</h3>
+                <h3 className="text-sm font-medium text-white">속성</h3>
                 <Button variant="ghost" size="icon" onClick={onClose} className="text-slate-400 hover:text-white">
                     <Icon icon={X} size={16} />
                 </Button>
             </div>
             <div className="space-y-4 flex-1">
                 <div>
-                    <label className="text-xs font-medium text-slate-400 block mb-1.5">Label</label>
+                    <label className="text-xs font-medium text-slate-400 block mb-1.5">라벨</label>
                     <Input
                         value={label}
                         onChange={(e) => setLabel(e.target.value)}
@@ -41,7 +41,7 @@ export function PropertyPanel({ selectedNode, onClose, onSave }: PropertyPanelPr
 
                 {/* Placeholder for dynamic fields based on node type */}
                 <div className="p-3 rounded bg-blue-500/10 border border-blue-500/20 text-xs text-blue-300">
-                    config params for <strong>{selectedNode.type}</strong>
+                    <strong>{selectedNode.type}</strong> 설정 파라미터
                 </div>
             </div>
             <div className="pt-4 border-t border-slate-800">
@@ -50,7 +50,7 @@ export function PropertyPanel({ selectedNode, onClose, onSave }: PropertyPanelPr
                     className="w-full gap-2"
                 >
                     <Icon icon={Save} size={14} />
-                    Apply Changes
+                    변경사항 적용
                 </Button>
             </div>
         </div>

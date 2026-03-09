@@ -1,44 +1,50 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/molecules/Tabs';
+import type { Meta, StoryObj } from '@storybook/react'
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/molecules/Tabs'
 
-const meta = {
-    title: 'Molecules/Tabs',
-    component: Tabs,
-    parameters: {
-        layout: 'centered',
-    },
-    decorators: [
-        (Story) => (
-            <div className="bg-slate-950 p-8 w-[400px] text-white">
-                <Story />
-            </div>
-        ),
-    ],
-} satisfies Meta<typeof Tabs>;
-
-export default meta;
-type Story = StoryObj<typeof meta>;
+const meta: Meta<typeof Tabs> = {
+  title: 'Molecules/Tabs',
+  component: Tabs,
+  parameters: { layout: 'centered' },
+  tags: ['autodocs'],
+}
+export default meta
+type Story = StoryObj<typeof Tabs>
 
 export const Default: Story = {
-    args: {
-        defaultValue: 'account',
-        children: (
-            <>
-                <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="account">Account</TabsTrigger>
-                    <TabsTrigger value="password">Password</TabsTrigger>
-                </TabsList>
-                <TabsContent value="account">
-                    <div className="p-4 rounded border border-slate-800 bg-slate-900 mt-2">
-                        Make changes to your account here.
-                    </div>
-                </TabsContent>
-                <TabsContent value="password">
-                    <div className="p-4 rounded border border-slate-800 bg-slate-900 mt-2">
-                        Change your password here.
-                    </div>
-                </TabsContent>
-            </>
-        ),
-    },
-};
+  render: () => (
+    <Tabs defaultValue="account" className="w-[400px]">
+      <Tabs.List>
+        <Tabs.Trigger value="account">Account</Tabs.Trigger>
+        <Tabs.Trigger value="password">Password</Tabs.Trigger>
+        <Tabs.Trigger value="settings">Settings</Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Content value="account">
+        <p className="text-sm text-muted-foreground">Make changes to your account here.</p>
+      </Tabs.Content>
+      <Tabs.Content value="password">
+        <p className="text-sm text-muted-foreground">Change your password here.</p>
+      </Tabs.Content>
+      <Tabs.Content value="settings">
+        <p className="text-sm text-muted-foreground">Manage your settings here.</p>
+      </Tabs.Content>
+    </Tabs>
+  ),
+}
+
+export const WithDisabled: Story = {
+  render: () => (
+    <Tabs defaultValue="tab1" className="w-[400px]">
+      <Tabs.List>
+        <Tabs.Trigger value="tab1">Active</Tabs.Trigger>
+        <Tabs.Trigger value="tab2" disabled>Disabled</Tabs.Trigger>
+        <Tabs.Trigger value="tab3">Other</Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Content value="tab1">
+        <p className="text-sm text-muted-foreground">Active tab content.</p>
+      </Tabs.Content>
+      <Tabs.Content value="tab3">
+        <p className="text-sm text-muted-foreground">Other tab content.</p>
+      </Tabs.Content>
+    </Tabs>
+  ),
+}

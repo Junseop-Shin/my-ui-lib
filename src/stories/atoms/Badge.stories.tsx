@@ -1,48 +1,35 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { Badge } from '@/components/atoms/Badge';
+import type { Meta, StoryObj } from '@storybook/react'
+import { Badge } from '@/components/atoms/Badge'
 
-const meta = {
-    title: 'Atoms/Badge',
-    component: Badge,
-    parameters: {
-        layout: 'centered',
+const meta: Meta<typeof Badge> = {
+  title: 'Atoms/Badge',
+  component: Badge,
+  tags: ['autodocs'],
+  parameters: { layout: 'centered' },
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['default', 'secondary', 'outline', 'destructive', 'success', 'warning'],
     },
-    decorators: [
-        (Story) => (
-            <div className="bg-slate-950 p-8 flex gap-4">
-                <Story />
-            </div>
-        ),
-    ],
-} satisfies Meta<typeof Badge>;
+  },
+}
+export default meta
+type Story = StoryObj<typeof Badge>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export const All: Story = {
+  render: () => (
+    <div className="flex flex-wrap gap-2">
+      <Badge variant="default">New</Badge>
+      <Badge variant="secondary">Beta</Badge>
+      <Badge variant="outline">Draft</Badge>
+      <Badge variant="success">Live</Badge>
+      <Badge variant="destructive">Error</Badge>
+      <Badge variant="warning">Review</Badge>
+    </div>
+  ),
+}
 
-export const Default: Story = {
-    args: {
-        children: 'Badge',
-        variant: 'default',
-    },
-};
-
-export const Success: Story = {
-    args: {
-        children: 'Success',
-        variant: 'success',
-    },
-};
-
-export const Destructive: Story = {
-    args: {
-        children: 'Destructive',
-        variant: 'destructive',
-    },
-};
-
-export const Outline: Story = {
-    args: {
-        children: 'Outline',
-        variant: 'outline',
-    },
-};
+export const Default: Story = { args: { children: 'New', variant: 'default' } }
+export const Success: Story = { args: { children: 'Live', variant: 'success' } }
+export const Destructive: Story = { args: { children: 'Error', variant: 'destructive' } }
+export const Outline: Story = { args: { children: 'Draft', variant: 'outline' } }

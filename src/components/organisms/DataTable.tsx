@@ -1,3 +1,4 @@
+import * as React from "react"
 import {
   ColumnDef,
   flexRender,
@@ -6,33 +7,35 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
-} from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
-import * as React from "react";
-import { Icon } from "@/components/atoms/Icon";
-
+} from "@tanstack/react-table"
+import { ArrowUpDown, Search } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { Input } from "@/components/atoms/Input"
+import { Button } from "@/components/atoms/Button"
 import {
   Table,
-  TableBody,
-  TableCell,
-  TableHead,
   TableHeader,
+  TableBody,
   TableRow,
-} from "@/components/molecules/Table";
-import { Input } from "@/components/atoms/Input";
-import { Button } from "@/components/atoms/Button";
+  TableHead,
+  TableCell,
+} from "@/components/molecules/Table"
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+export interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[]
+  data: TData[]
+  filterPlaceholder?: string
+  className?: string
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  filterPlaceholder = "Filter…",
+  className,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [globalFilter, setGlobalFilter] = React.useState("");
+  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [globalFilter, setGlobalFilter] = React.useState("")
 
   const table = useReactTable({
     data,
@@ -42,82 +45,65 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     onSortingChange: setSorting,
     onGlobalFilterChange: setGlobalFilter,
-    state: {
-      sorting,
-      globalFilter,
-    },
-  });
+    state: { sorting, globalFilter },
+  })
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center">
+    <div className={cn("space-y-4", className)}>
+      <div className="relative flex items-center max-w-sm">
+        <Search className="absolute left-3 h-4 w-4 text-muted-foreground pointer-events-none" />
         <Input
-          placeholder="필터..."
+          placeholder={filterPlaceholder}
           value={globalFilter ?? ""}
-          onChange={(event) => setGlobalFilter(event.target.value)}
-          className="max-w-sm"
+          onChange={(e) => setGlobalFilter(e.target.value)}
+          className="pl-9"
         />
       </div>
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+      <Table>
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <TableHead key={header.id}>
+                  {header.isPlaceholder ? null : (
+                    <div className="flex items-center gap-1">
+                      {flexRender(header.column.columnDef.header, header.getContext())}
                       {header.column.getCanSort() && (
                         <Button
                           variant="ghost"
-                          size="sm"
+                          size="icon-sm"
                           onClick={() => header.column.toggleSorting(header.column.getIsSorted() === "asc")}
-                          className="-ml-3 h-8 data-[state=open]:bg-accent"
                         >
-                          <Icon icon={ArrowUpDown} className="ml-2 h-4 w-4" />
+                          <ArrowUpDown className="h-3.5 w-3.5" />
                         </Button>
                       )}
-                    </TableHead>
-                  );
-                })}
+                    </div>
+                  )}
+                </TableHead>
+              ))}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
               </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  결과가 없습니다.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center text-muted-foreground">
+                No results.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
     </div>
-  );
+  )
 }

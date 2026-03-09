@@ -1,21 +1,45 @@
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "@/lib/utils"
 
-function cn(...inputs: ClassValue[]) {
-    return twMerge(clsx(inputs));
-}
+const badgeVariants = cva(
+  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium transition-colors",
+  {
+    variants: {
+      variant: {
+        default:
+          "border-transparent bg-primary/10 text-primary",
+        secondary:
+          "border-transparent bg-secondary text-secondary-foreground",
+        outline:
+          "border-border text-foreground",
+        destructive:
+          "border-transparent bg-destructive/10 text-destructive",
+        success:
+          "border-transparent bg-success/10 text-success",
+        warning:
+          "border-transparent bg-warning/10 text-warning-foreground",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
 
-export function Badge({ children, variant = 'default' }: { children: React.ReactNode, variant?: 'default' | 'success' | 'destructive' | 'outline' }) {
-    const variants = {
-        default: "bg-blue-900/20 text-blue-400 border-blue-900/50",
-        success: "bg-emerald-900/20 text-emerald-400 border-emerald-900/50",
-        destructive: "bg-red-900/20 text-red-400 border-red-900/50",
-        outline: "text-slate-400 border-slate-800"
-    };
+export interface BadgeProps
+  extends React.HTMLAttributes<HTMLSpanElement>,
+    VariantProps<typeof badgeVariants> {}
 
-    return (
-        <span className={cn("inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2", variants[variant])}>
-            {children}
-        </span>
-    );
-}
+const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
+  ({ className, variant, ...props }, ref) => (
+    <span
+      ref={ref}
+      className={cn(badgeVariants({ variant }), className)}
+      {...props}
+    />
+  )
+)
+Badge.displayName = "Badge"
+
+export { Badge, badgeVariants }

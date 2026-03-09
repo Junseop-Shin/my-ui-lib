@@ -1,45 +1,39 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { Input } from '@/components/atoms/Input';
+import type { Meta, StoryObj } from '@storybook/react'
+import { Input } from '@/components/atoms/Input'
+import { Label } from '@/components/atoms/Label'
 
 const meta: Meta<typeof Input> = {
   title: 'Atoms/Input',
   component: Input,
   tags: ['autodocs'],
-  argTypes: {
-    error: { control: 'boolean' },
-  },
-};
-
-export default meta;
-type Story = StoryObj<typeof Input>;
+  parameters: { layout: 'centered' },
+}
+export default meta
+type Story = StoryObj<typeof Input>
 
 export const Default: Story = {
-  args: {
-    placeholder: 'Type something...',
-  },
-};
+  args: { placeholder: 'Search…' },
+}
 
 export const WithLabel: Story = {
-  args: {
-    label: 'Email Address',
-    type: 'email',
-    placeholder: 'user@example.com',
-  },
-};
+  render: () => (
+    <div className="grid gap-1.5 w-72">
+      <Label htmlFor="email">Email</Label>
+      <Input id="email" type="email" placeholder="you@example.com" />
+    </div>
+  ),
+}
 
-export const WithHelperText: Story = {
-  args: {
-    label: 'Password',
-    type: 'password',
-    helperText: 'Must be at least 8 characters.',
-  },
-};
+export const Disabled: Story = {
+  args: { placeholder: 'Disabled input', disabled: true },
+}
 
-export const WithError: Story = {
-  args: {
-    label: 'Username',
-    defaultValue: 'invalid user',
-    error: true,
-    helperText: 'This username is already taken.',
-  },
-};
+export const Invalid: Story = {
+  render: () => (
+    <div className="grid gap-1.5 w-72">
+      <Label htmlFor="bad">Username</Label>
+      <Input id="bad" defaultValue="taken_name" aria-invalid="true" />
+      <p className="text-xs text-destructive">This username is already taken.</p>
+    </div>
+  ),
+}

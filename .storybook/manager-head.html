@@ -1,3 +1,18 @@
+<script>
+  (function () {
+    try {
+      fetch("https://ingestor.nuclearbomb6518.com/v1/events", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          event_type: "page_view",
+          service_id: "my-ui-lib",
+          metadata: { referrer: document.referrer || undefined },
+        }),
+      });
+    } catch (_) {}
+  })();
+</script>
 <meta property="og:title" content="My UI Library — Storybook" />
 <meta property="og:description" content="금융권 특화 React 디자인 시스템. Light/Dark/Finance 3가지 테마 지원." />
 <meta property="og:image" content="https://storybook.nuclearbomb6518.com/og-image.svg" />

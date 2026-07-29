@@ -40,12 +40,34 @@
 
 ## 3. 🏗️ 아키텍처 및 라이브러리 (Architecture)
 
-### Q. Radix UI (Headless UI)를 왜 썼나요?
-- **핵심**: **"스타일링의 자유도"**와 **"웹 접근성(Accessibility)"** 모두 잡기 위함입니다.
+### Q. Headless UI 라이브러리를 왜 썼나요?
+- **핵심**: **"스타일링의 자유도"**와 **"웹 접근성(Accessibility)"**을 모두 잡기 위함입니다.
 - **설명**:
     - MUI 같은 라이브러리는 이미 스타일이 있어 커스터마이징이 힘듭니다.
-    - **Radix UI**는 스타일 없이 **기능(키보드 이동, 스크린 리더, 포커스 제어)**만 제공하는 Headless 라이브러리입니다.
-    - 로직은 Radix에게, 디자인은 우리가 원하는 대로 **Tailwind CSS**로 구현하는 최적의 조합입니다.
+    - Headless 라이브러리는 스타일 없이 **기능(키보드 이동, 스크린 리더, 포커스 제어)**만 제공합니다.
+    - 로직은 라이브러리에게, 디자인은 **Tailwind CSS**로 구현하는 조합입니다.
+
+### Q. Radix UI에서 Base UI로 전환했다던데, 왜죠?
+- **계기**는 shadcn/ui가 기본값을 Base UI로 바꾼 것이지만, **실질적 이유는 컴포넌트 커버리지**였습니다.
+    - Radix에는 Combobox, NumberField, OTPField, Slider 같은 게 없어 필요할 때마다 직접 만들거나 포기해야 했습니다. Base UI는 40여 개를 제공해서, 전환하면서 **21종을 새로 추가**할 수 있었습니다.
+- **부수적으로** 배포 단위가 정리됐습니다. Radix는 컴포넌트마다 독립 패키지라 12개 버전을 따로 관리해야 했고, 내부 공통 의존성 버전이 갈리면 번들에 중복 적재됩니다. Base UI는 한 패키지·한 버전입니다.
+- **다만 "Radix를 그대로 옮긴 것"은 아닙니다.** Select 구조만 봐도 `Portal > Content > Viewport > Item`이 `Portal > Positioner > Popup > List > Item`으로 한 겹 깊어지고, 합성 방식도 `asChild`에서 `render` prop으로 바뀝니다.
+
+### Q. 전환하면서 가장 위험했던 지점은?
+- **스타일 계약이 조용히 깨지는 것**이었습니다. 타입체크로 하나도 안 잡히고, 에러도 안 나고, 색과 위치만 틀어집니다.
+
+| Radix | Base UI | 결과 |
+|---|---|---|
+| `data-state="checked"` (값) | `data-checked` (속성 존재) | `data-[state=checked]:` 셀렉터 전멸 |
+| `<button disabled>` | `<span aria-disabled data-disabled>` | **`disabled:opacity-50`이 영원히 매치 안 됨** |
+
+- `disabled:`가 죽는 게 특히 위험합니다. `:disabled` 의사클래스는 폼 요소에만 걸리는데 Base UI는 `<span>`을 렌더하는 경우가 있어서요. 컴포넌트마다 `data-[disabled]:`로 바꾸고, Label에는 네이티브 폼 요소용 `peer-disabled:`와 Base UI용 `peer-data-[disabled]:`를 **둘 다** 걸었습니다.
+- 이걸 잡아준 건 기존 유닛 테스트였습니다. Switch·Checkbox 테스트가 `data-state`를 직접 검증하고 있어서 걸렸고, 테스트가 없던 Separator는 마이그레이션하며 테스트를 추가하다 발견했습니다.
+
+### Q. 시각 회귀는 어떻게 검증했나요?
+- 원래 Chromatic이 붙어 있었지만 컴포넌트 7개만 등록된 상태라 베이스라인으로 쓸 수 없었습니다. 그래서 **자동 시각 회귀 검증 없이** 진행했고, 이 점은 한계로 남습니다.
+- 대신 **실제로 동작하던 검증 수단을 먼저 CI에 연결**했습니다. 착수 시점에 통과하는 테스트 150개(vitest 74 + Storybook 76)가 아무 데서도 실행되지 않고 있었습니다. `npm run test`는 Storybook 서버가 필요한 명령이었고 CI는 타입체크와 빌드만 돌리고 있었습니다.
+- 구조 변경이 큰 컴포넌트는 Storybook을 직접 띄워 눈으로 비교했습니다.
 
 ### Q. Tailwind CSS가 있는데 PostCSS는 왜 썼나요?
 - **관계**: Tailwind는 PostCSS의 **플러그인**입니다.

@@ -8,9 +8,12 @@ export default defineConfig({
   plugins: [
     react(),
     dts({
+      // 루트 tsconfig.json은 files: []에 references만 있어 대상 파일이 0개다.
+      // vite-plugin-dts 5는 이를 그대로 따라 빈 선언만 내보내므로 앱 설정을 직접 지정한다.
+      tsconfigPath: './tsconfig.app.json',
       insertTypesEntry: true,
       include: ['src'],
-      exclude: ['src/**/*.stories.tsx', 'src/**/*.test.ts']
+      exclude: ['src/**/*.stories.tsx', 'src/**/*.test.ts', 'src/**/*.test.tsx']
     })
   ],
   resolve: {
@@ -30,7 +33,6 @@ export default defineConfig({
       external: [
         'react',
         'react-dom',
-        'next',
         'lucide-react',
         '@xyflow/react',
         'tailwindcss'
@@ -39,6 +41,8 @@ export default defineConfig({
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',
+          // 지정하지 않으면 Rollup이 이름을 추측하며, 버전에 따라 결과가 달라진다
+          'lucide-react': 'lucideReact',
           '@xyflow/react': 'ReactFlow',
           tailwindcss: 'tailwindcss'
         }

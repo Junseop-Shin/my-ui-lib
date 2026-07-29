@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Dialog } from '@/components/atoms/Dialog'
 import { Button } from '@/components/atoms/Button'
 import { Input } from '@/components/atoms/Input'

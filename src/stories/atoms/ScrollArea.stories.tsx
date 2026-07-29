@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { ScrollArea } from '@/components/atoms/ScrollArea'
 import { Separator } from '@/components/atoms/Separator'
 

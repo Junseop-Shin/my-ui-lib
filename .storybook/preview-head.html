@@ -1,0 +1,26 @@
+<script>
+  // Storybook의 docs iframe은 <base target="_parent">를 설정한다.
+  // 그래서 target이 없는 <a>는 부모 창을 이동시키고, 데모용 해시 링크(href="#")를
+  // 클릭하면 Storybook UI가 통째로 iframe URL로 빠져나간다.
+  //
+  // 스토리 안(#storybook-root · .docs-story)의 해시 링크만 막는다.
+  // docs 제목 앵커(#stories, #default 등)는 스토리 밖에 있으므로 그대로 동작한다.
+  document.addEventListener(
+    'click',
+    function (event) {
+      var target = event.target;
+      if (!(target instanceof Element)) return;
+
+      var anchor = target.closest('a');
+      if (!anchor) return;
+
+      var href = anchor.getAttribute('href') || '';
+      if (href.charAt(0) !== '#') return;
+
+      if (anchor.closest('#storybook-root, .docs-story')) {
+        event.preventDefault();
+      }
+    },
+    true
+  );
+</script>

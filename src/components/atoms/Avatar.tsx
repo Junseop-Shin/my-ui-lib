@@ -1,5 +1,5 @@
 import * as React from "react"
-import * as AvatarPrimitive from "@radix-ui/react-avatar"
+import { Avatar as AvatarPrimitive } from "@base-ui/react/avatar"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
@@ -30,7 +30,7 @@ const AvatarRoot = React.forwardRef<
     {...props}
   />
 ))
-AvatarRoot.displayName = AvatarPrimitive.Root.displayName
+AvatarRoot.displayName = "Avatar"
 
 /* ─── Image ─── */
 const AvatarImage = React.forwardRef<
@@ -43,7 +43,7 @@ const AvatarImage = React.forwardRef<
     {...props}
   />
 ))
-AvatarImage.displayName = AvatarPrimitive.Image.displayName
+AvatarImage.displayName = "Avatar.Image"
 
 /* ─── Fallback ─── */
 const AvatarFallback = React.forwardRef<
@@ -59,7 +59,7 @@ const AvatarFallback = React.forwardRef<
     {...props}
   />
 ))
-AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
+AvatarFallback.displayName = "Avatar.Fallback"
 
 /* ─── Compound ─── */
 const Avatar = Object.assign(AvatarRoot, {

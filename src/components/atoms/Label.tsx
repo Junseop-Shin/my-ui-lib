@@ -8,7 +8,11 @@ const Label = React.forwardRef<
   <label
     ref={ref}
     className={cn(
-      "text-sm font-medium text-foreground leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+      "text-sm font-medium text-foreground leading-none",
+      // 네이티브 폼 요소(Input, Textarea)는 :disabled로, Base UI 컴포넌트는
+      // <span>을 렌더해 data-disabled로 상태를 노출하므로 둘 다 건다.
+      "peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+      "peer-data-[disabled]:cursor-not-allowed peer-data-[disabled]:opacity-70",
       className
     )}
     onMouseDown={(event) => {

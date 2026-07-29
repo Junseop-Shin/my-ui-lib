@@ -1,5 +1,5 @@
 import * as React from "react"
-import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
+import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox"
 import { Check } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -12,8 +12,10 @@ const Checkbox = React.forwardRef<
     className={cn(
       "peer h-[18px] w-[18px] shrink-0 rounded-[5px] border border-border bg-background transition-colors",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-      "disabled:cursor-not-allowed disabled:opacity-50",
-      "data-[state=checked]:bg-primary data-[state=checked]:border-primary data-[state=checked]:text-primary-foreground",
+      // Base UI Checkbox는 <span>을 렌더하므로 :disabled가 걸리지 않고,
+      // 상태를 값이 아닌 속성 존재(data-checked)로 노출한다.
+      "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50",
+      "data-[checked]:bg-primary data-[checked]:border-primary data-[checked]:text-primary-foreground",
       className
     )}
     {...props}
@@ -23,6 +25,6 @@ const Checkbox = React.forwardRef<
     </CheckboxPrimitive.Indicator>
   </CheckboxPrimitive.Root>
 ))
-Checkbox.displayName = CheckboxPrimitive.Root.displayName
+Checkbox.displayName = "Checkbox"
 
 export { Checkbox }

@@ -45,7 +45,6 @@
     "motion": "^12.6.5",
     "react-hook-form": "^7.71.2",
     "recharts": "^3.6.0",
-    "sonner": "^2.0.7",
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {

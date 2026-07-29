@@ -28,6 +28,9 @@ export { Slider } from './components/atoms/Slider';
 export { Progress } from './components/atoms/Progress';
 export { Meter } from './components/atoms/Meter';
 export { NumberField } from './components/atoms/NumberField';
+export { OtpField } from './components/atoms/OtpField';
+export { CheckboxGroup } from './components/atoms/CheckboxGroup';
+export { Fieldset } from './components/atoms/Fieldset';
 
 // Molecules
 export { Tabs, TabsList, TabsTrigger, TabsContent } from './components/molecules/Tabs';
@@ -41,6 +44,8 @@ export { AlertDialog } from './components/molecules/AlertDialog';
 export { Drawer } from './components/molecules/Drawer';
 export { ContextMenu } from './components/molecules/ContextMenu';
 export { Toolbar } from './components/molecules/Toolbar';
+export { Combobox } from './components/molecules/Combobox';
+export { Autocomplete } from './components/molecules/Autocomplete';
 export { StatCard } from './components/molecules/StatCard';
 export { StrategyNode } from './components/molecules/StrategyNode';
 export { ActiveStrategyCard } from './components/molecules/ActiveStrategyCard';

@@ -43,11 +43,12 @@ const ContextMenuItem = React.forwardRef<
 ))
 ContextMenuItem.displayName = "ContextMenu.Item"
 
+// GroupLabel은 Group 컨텍스트를 요구하므로, 그룹 밖에서도 쓰이는 Label은 일반 요소로 렌더한다.
 const ContextMenuLabel = React.forwardRef<
-  React.ElementRef<typeof ContextMenuPrimitive.GroupLabel>,
-  React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.GroupLabel>
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <ContextMenuPrimitive.GroupLabel
+  <div
     ref={ref}
     className={cn("px-2 py-1.5 text-xs font-semibold text-muted-foreground", className)}
     {...props}

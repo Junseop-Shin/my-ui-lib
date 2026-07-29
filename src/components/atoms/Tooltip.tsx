@@ -12,16 +12,24 @@ const TooltipTrigger = TooltipPrimitive.Trigger
 // sideOffset은 Positioner의 prop이므로 여기서 갈라 넘긴다.
 const TooltipContent = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Popup>,
-  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Popup> & {
-    sideOffset?: React.ComponentPropsWithoutRef<
-      typeof TooltipPrimitive.Positioner
-    >["sideOffset"]
-  }
->(({ className, sideOffset = 6, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Popup> &
+    Pick<
+      React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Positioner>,
+      "sideOffset" | "side" | "align" | "alignOffset"
+    >
+>(({ className, sideOffset = 6, side, align, alignOffset, ...props }, ref) => (
   <TooltipPrimitive.Portal>
-    <TooltipPrimitive.Positioner sideOffset={sideOffset} className="z-50">
+    <TooltipPrimitive.Positioner
+      sideOffset={sideOffset}
+      side={side}
+      align={align}
+      alignOffset={alignOffset}
+      className="z-50"
+    >
       <TooltipPrimitive.Popup
         ref={ref}
+        // Base UI Popup은 role을 붙이지 않는다. Radix Content가 주던 시맨틱을 유지한다.
+        role="tooltip"
         className={cn(
           "overflow-hidden rounded-xl bg-foreground px-3 py-1.5 text-xs text-background shadow-md",
           "animate-in fade-in-0 zoom-in-95",

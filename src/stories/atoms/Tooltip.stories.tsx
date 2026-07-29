@@ -23,9 +23,7 @@ type Story = StoryObj<typeof Tooltip>
 export const Default: Story = {
   render: () => (
     <Tooltip>
-      <TooltipTrigger asChild>
-        <Button variant="outline">Hover me</Button>
-      </TooltipTrigger>
+      <TooltipTrigger render={<Button variant="outline">Hover me</Button>} />
       <TooltipContent>Add to library</TooltipContent>
     </Tooltip>
   ),
@@ -34,11 +32,13 @@ export const Default: Story = {
 export const WithIcon: Story = {
   render: () => (
     <Tooltip>
-      <TooltipTrigger asChild>
-        <button className="text-muted-foreground hover:text-foreground transition-colors">
-          <Info size={16} />
-        </button>
-      </TooltipTrigger>
+      <TooltipTrigger
+        render={
+          <button className="text-muted-foreground hover:text-foreground transition-colors">
+            <Info size={16} />
+          </button>
+        }
+      />
       <TooltipContent side="right">Additional information</TooltipContent>
     </Tooltip>
   ),
@@ -49,9 +49,7 @@ export const Placements: Story = {
     <div className="flex gap-4">
       {(['top', 'right', 'bottom', 'left'] as const).map((side) => (
         <Tooltip key={side}>
-          <TooltipTrigger asChild>
-            <Button variant="outline" size="sm">{side}</Button>
-          </TooltipTrigger>
+          <TooltipTrigger render={<Button variant="outline" size="sm">{side}</Button>} />
           <TooltipContent side={side}>Tooltip on {side}</TooltipContent>
         </Tooltip>
       ))}

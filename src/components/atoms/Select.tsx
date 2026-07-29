@@ -68,14 +68,20 @@ SelectScrollDownButton.displayName = "Select.ScrollDownButton"
 // Base UI가 Positioner에 노출하는 --anchor-width / --anchor-height를 쓴다.
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Popup>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Popup> & {
-    sideOffset?: React.ComponentPropsWithoutRef<
-      typeof SelectPrimitive.Positioner
-    >["sideOffset"]
-  }
->(({ className, children, sideOffset = 4, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Popup> &
+    Pick<
+      React.ComponentPropsWithoutRef<typeof SelectPrimitive.Positioner>,
+      "sideOffset" | "side" | "align" | "alignOffset"
+    >
+>(({ className, children, sideOffset = 4, side, align, alignOffset, ...props }, ref) => (
   <SelectPrimitive.Portal>
-    <SelectPrimitive.Positioner sideOffset={sideOffset} className="z-50">
+    <SelectPrimitive.Positioner
+      sideOffset={sideOffset}
+      side={side}
+      align={align}
+      alignOffset={alignOffset}
+      className="z-50"
+    >
       <SelectPrimitive.Popup
         ref={ref}
         className={cn(

@@ -65,14 +65,20 @@ DropdownMenuSubContent.displayName = "DropdownMenu.SubContent"
 // sideOffset은 Positioner의 prop이므로 갈라서 넘긴다.
 const DropdownMenuContent = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Popup>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Popup> & {
-    sideOffset?: React.ComponentPropsWithoutRef<
-      typeof DropdownMenuPrimitive.Positioner
-    >["sideOffset"]
-  }
->(({ className, sideOffset = 6, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Popup> &
+    Pick<
+      React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Positioner>,
+      "sideOffset" | "side" | "align" | "alignOffset"
+    >
+>(({ className, sideOffset = 6, side, align, alignOffset, ...props }, ref) => (
   <DropdownMenuPrimitive.Portal>
-    <DropdownMenuPrimitive.Positioner sideOffset={sideOffset} className="z-50">
+    <DropdownMenuPrimitive.Positioner
+      sideOffset={sideOffset}
+      side={side}
+      align={align}
+      alignOffset={alignOffset}
+      className="z-50"
+    >
       <DropdownMenuPrimitive.Popup
         ref={ref}
         className={cn(
@@ -140,12 +146,14 @@ const DropdownMenuRadioItem = React.forwardRef<
 ))
 DropdownMenuRadioItem.displayName = "DropdownMenu.RadioItem"
 
-// Radix의 Label은 Base UI에서 Group 안의 GroupLabel에 해당한다.
+// Base UI의 GroupLabel은 Group 컨텍스트를 요구하지만, Radix의 Label은 그룹 밖에서도
+// 쓸 수 있었다. 기존 사용처를 깨지 않도록 일반 요소로 렌더한다.
+// 그룹 제목이 필요하면 DropdownMenu.Group 안에 GroupLabel을 쓰는 편이 맞다.
 const DropdownMenuLabel = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.GroupLabel>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.GroupLabel> & { inset?: boolean }
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & { inset?: boolean }
 >(({ className, inset, ...props }, ref) => (
-  <DropdownMenuPrimitive.GroupLabel
+  <div
     ref={ref}
     className={cn(
       "px-2 py-1.5 text-xs font-semibold text-muted-foreground",

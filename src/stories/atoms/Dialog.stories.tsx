@@ -15,9 +15,7 @@ type Story = StoryObj
 export const Default: Story = {
   render: () => (
     <Dialog>
-      <Dialog.Trigger asChild>
-        <Button variant="outline">Open dialog</Button>
-      </Dialog.Trigger>
+      <Dialog.Trigger render={<Button variant="outline">Open dialog</Button>} />
       <Dialog.Content>
         <Dialog.Header>
           <Dialog.Title>Edit profile</Dialog.Title>
@@ -36,9 +34,7 @@ export const Default: Story = {
           </div>
         </div>
         <Dialog.Footer>
-          <Dialog.Close asChild>
-            <Button variant="ghost">Cancel</Button>
-          </Dialog.Close>
+          <Dialog.Close render={<Button variant="ghost">Cancel</Button>} />
           <Button>Save changes</Button>
         </Dialog.Footer>
       </Dialog.Content>
@@ -49,9 +45,7 @@ export const Default: Story = {
 export const Confirmation: Story = {
   render: () => (
     <Dialog>
-      <Dialog.Trigger asChild>
-        <Button variant="destructive">Delete account</Button>
-      </Dialog.Trigger>
+      <Dialog.Trigger render={<Button variant="destructive">Delete account</Button>} />
       <Dialog.Content className="max-w-sm">
         <Dialog.Header>
           <Dialog.Title>Are you sure?</Dialog.Title>
@@ -60,9 +54,7 @@ export const Confirmation: Story = {
           </Dialog.Description>
         </Dialog.Header>
         <Dialog.Footer>
-          <Dialog.Close asChild>
-            <Button variant="ghost">Cancel</Button>
-          </Dialog.Close>
+          <Dialog.Close render={<Button variant="ghost">Cancel</Button>} />
           <Button variant="destructive">Yes, delete</Button>
         </Dialog.Footer>
       </Dialog.Content>

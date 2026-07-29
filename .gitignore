@@ -29,3 +29,4 @@ dist-ssr
 .npmrc
 
 storybook-static
+.gstack/

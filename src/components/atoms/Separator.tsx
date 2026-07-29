@@ -1,15 +1,20 @@
 import * as React from "react"
-import * as SeparatorPrimitive from "@radix-ui/react-separator"
+import { Separator as SeparatorPrimitive } from "@base-ui/react/separator"
 import { cn } from "@/lib/utils"
 
 const Separator = React.forwardRef<
-  React.ElementRef<typeof SeparatorPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root>
+  React.ElementRef<typeof SeparatorPrimitive>,
+  React.ComponentPropsWithoutRef<typeof SeparatorPrimitive> & { decorative?: boolean }
 >(({ className, orientation = "horizontal", decorative = true, ...props }, ref) => (
-  <SeparatorPrimitive.Root
+  <SeparatorPrimitive
     ref={ref}
-    decorative={decorative}
     orientation={orientation}
+    // Base UI Separator는 role을 붙이지 않고 data-orientation만 렌더한다.
+    // Radix가 decorative로 처리하던 접근성 시맨틱을 직접 지정한다.
+    role={decorative ? "none" : "separator"}
+    aria-orientation={
+      !decorative && orientation === "vertical" ? "vertical" : undefined
+    }
     className={cn(
       "shrink-0 bg-border",
       orientation === "horizontal" ? "h-px w-full" : "h-full w-px",
@@ -18,6 +23,6 @@ const Separator = React.forwardRef<
     {...props}
   />
 ))
-Separator.displayName = SeparatorPrimitive.Root.displayName
+Separator.displayName = "Separator"
 
 export { Separator }

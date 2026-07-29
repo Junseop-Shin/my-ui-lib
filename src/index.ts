@@ -37,6 +37,10 @@ export { Accordion } from './components/molecules/Accordion';
 export { Collapsible } from './components/molecules/Collapsible';
 export { Popover } from './components/molecules/Popover';
 export { PreviewCard } from './components/molecules/PreviewCard';
+export { AlertDialog } from './components/molecules/AlertDialog';
+export { Drawer } from './components/molecules/Drawer';
+export { ContextMenu } from './components/molecules/ContextMenu';
+export { Toolbar } from './components/molecules/Toolbar';
 export { StatCard } from './components/molecules/StatCard';
 export { StrategyNode } from './components/molecules/StrategyNode';
 export { ActiveStrategyCard } from './components/molecules/ActiveStrategyCard';
@@ -79,6 +83,8 @@ export { DataTable } from './components/organisms/DataTable';
 export type { DataTableProps } from './components/organisms/DataTable';
 export { StockChart } from './components/organisms/StockChart';
 export { PieChart } from './components/organisms/PieChart';
+export { NavigationMenu } from './components/organisms/NavigationMenu';
+export { Menubar } from './components/organisms/Menubar';
 
 // Hooks
 export { useCopyToClipboard } from './hooks/useCopyToClipboard';

@@ -9,7 +9,7 @@
           service_id: "my-ui-lib",
           metadata: { referrer: document.referrer || undefined },
         }),
-      });
+      }).catch(function () {});
     } catch (_) {}
   })();
 </script>

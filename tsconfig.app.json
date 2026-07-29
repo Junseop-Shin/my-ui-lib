@@ -23,7 +23,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "baseUrl": ".",
+    /* TypeScript 7에서 baseUrl이 제거됐다. paths는 이 파일 위치 기준으로 해석된다. */
     "paths": {
       "@/*": [
         "./src/*"

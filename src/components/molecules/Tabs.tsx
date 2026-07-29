@@ -1,5 +1,5 @@
 import * as React from "react"
-import * as TabsPrimitive from "@radix-ui/react-tabs"
+import { Tabs as TabsPrimitive } from "@base-ui/react/tabs"
 import { cn } from "@/lib/utils"
 
 const TabsRoot = TabsPrimitive.Root
@@ -17,33 +17,36 @@ const TabsList = React.forwardRef<
     {...props}
   />
 ))
-TabsList.displayName = TabsPrimitive.List.displayName
+TabsList.displayName = "Tabs.List"
 
+// Base UI의 Tab이 Radix의 Trigger에 해당한다. 공개 이름은 Trigger로 유지한다.
 const TabsTrigger = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
+  React.ElementRef<typeof TabsPrimitive.Tab>,
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Tab>
 >(({ className, ...props }, ref) => (
-  <TabsPrimitive.Trigger
+  <TabsPrimitive.Tab
     ref={ref}
     className={cn(
       "inline-flex items-center justify-center whitespace-nowrap px-4 pb-3 pt-2 text-sm font-medium text-muted-foreground transition-all",
       "border-b-2 border-transparent -mb-px",
       "hover:text-foreground",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-      "disabled:pointer-events-none disabled:opacity-50",
-      "data-[state=active]:border-primary data-[state=active]:text-foreground",
+      // Base UI Tab은 선택 상태를 data-active로 노출한다(data-selected 아님 — 그건 Select.Item)
+      "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      "data-[active]:border-primary data-[active]:text-foreground",
       className
     )}
     {...props}
   />
 ))
-TabsTrigger.displayName = TabsPrimitive.Trigger.displayName
+TabsTrigger.displayName = "Tabs.Trigger"
 
+// Base UI의 Panel이 Radix의 Content에 해당한다. 공개 이름은 Content로 유지한다.
 const TabsContent = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
+  React.ElementRef<typeof TabsPrimitive.Panel>,
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Panel>
 >(({ className, ...props }, ref) => (
-  <TabsPrimitive.Content
+  <TabsPrimitive.Panel
     ref={ref}
     className={cn(
       "mt-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
@@ -52,7 +55,7 @@ const TabsContent = React.forwardRef<
     {...props}
   />
 ))
-TabsContent.displayName = TabsPrimitive.Content.displayName
+TabsContent.displayName = "Tabs.Content"
 
 const Tabs = Object.assign(TabsRoot, {
   List: TabsList,

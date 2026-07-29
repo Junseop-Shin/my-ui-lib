@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Bell, Search, Moon } from 'lucide-react'
 import { Header } from '@/components/organisms/Header'
 import { Button } from '@/components/atoms/Button'

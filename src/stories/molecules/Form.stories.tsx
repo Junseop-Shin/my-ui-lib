@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useForm } from 'react-hook-form'
 import { Form } from '@/components/molecules/Form'
 import { Input } from '@/components/atoms/Input'

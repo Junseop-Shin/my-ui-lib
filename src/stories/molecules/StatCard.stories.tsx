@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { StatCard } from '@/components/molecules/StatCard';
 import { DollarSign, Activity, Users } from 'lucide-react';
 

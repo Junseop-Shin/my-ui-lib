@@ -35,13 +35,21 @@ describe('Tabs', () => {
   it('disabled tab cannot be clicked', async () => {
     renderTabs()
     const disabledTab = screen.getByRole('tab', { name: 'Tab 3' })
-    expect(disabledTab).toBeDisabled()
+    // Base UI Tab은 disabled 속성 대신 aria-disabled/data-disabled로 표현한다.
+    // data-disabled는 data-[disabled]: 스타일이 걸리는 지점이라 함께 검증한다.
+    expect(disabledTab).toHaveAttribute('aria-disabled', 'true')
+    expect(disabledTab).toHaveAttribute('data-disabled')
   })
 
   it('active trigger has correct aria-selected', () => {
     renderTabs()
-    expect(screen.getByRole('tab', { name: 'Tab 1' })).toHaveAttribute('data-state', 'active')
-    expect(screen.getByRole('tab', { name: 'Tab 2' })).toHaveAttribute('data-state', 'inactive')
+    const active = screen.getByRole('tab', { name: 'Tab 1' })
+    const inactive = screen.getByRole('tab', { name: 'Tab 2' })
+    expect(active).toHaveAttribute('aria-selected', 'true')
+    // data-[selected]: 스타일이 걸리는 지점
+    expect(active).toHaveAttribute('data-active')
+    expect(inactive).toHaveAttribute('aria-selected', 'false')
+    expect(inactive).not.toHaveAttribute('data-active')
   })
 
   it('supports compound dot notation', () => {

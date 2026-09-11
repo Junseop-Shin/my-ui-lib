@@ -34,6 +34,7 @@
     "test:unit": "vitest run",
     "test:storybook": "test-storybook",
     "test:storybook:ci": "concurrently -k -s first -n SB,TEST \"http-server storybook-static --port 6006 --silent\" \"wait-on tcp:127.0.0.1:6006 && test-storybook\"",
+    "test:contrast": "tsx scripts/measure-contrast.ts",
     "build-storybook": "storybook build"
   },
   "dependencies": {
@@ -80,6 +81,7 @@
     "react-dom": "^19.2.8",
     "storybook": "^10.5.5",
     "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.13",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.65.0",
     "vite": "^8.1.5",

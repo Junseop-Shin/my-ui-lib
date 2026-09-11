@@ -1,4 +1,6 @@
-@import "tailwindcss";
+/* source("../")로 스캔 범위를 src/ 하나로 묶는다. 범위를 지정하지 않으면 Tailwind가
+   cwd 전체를 훑어 docs/*.md의 예시 클래스까지 유틸리티로 찍어낸다. */
+@import "tailwindcss" source("../");
 
 @import "./themes/default.css";
 @import "./themes/finance.css";
@@ -96,11 +98,6 @@
 
   /* 공간 — Tailwind의 기본 간격 척도를 테마가 정한다 */
   --spacing: var(--space);
-
-  /* 그림자 */
-  --shadow-theme-sm: var(--shadow-sm);
-  --shadow-theme-md: var(--shadow-md);
-  --shadow-theme-lg: var(--shadow-lg);
 
   /* 모션 — duration은 이름공간이 없어 여기 없다. CVA에서 duration-(--duration-normal)로 쓴다 */
   --ease-theme: var(--ease);

@@ -21,11 +21,14 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/my-ui-lib.es.js",
       "require": "./dist/my-ui-lib.umd.js"
-    }
+    },
+    "./styles": "./dist/styles.css",
+    "./styles.css": "./dist/styles.css"
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && npm run build:css",
+    "build:css": "tailwindcss -i src/styles/index.css -o dist/styles.css --minify",
     "prepublishOnly": "npm run build",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -58,6 +61,7 @@
     "@storybook/react": "^10.5.5",
     "@storybook/react-vite": "^10.5.5",
     "@storybook/test-runner": "^0.24.4",
+    "@tailwindcss/cli": "^4.3.3",
     "@tailwindcss/postcss": "^4.3.3",
     "@testing-library/jest-dom": "^6.1.5",
     "@testing-library/react": "^16.3.1",

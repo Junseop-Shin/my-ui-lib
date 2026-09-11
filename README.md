@@ -3,8 +3,10 @@
 **React 19+, TypeScript, Tailwind CSS v4, Base UI** 기반의 디자인 시스템 라이브러리입니다.
 금융권(Fintech) 서비스에 최적화된 테마 시스템과 데이터 시각화 컴포넌트를 제공합니다.
 
-> **v1.0.0** — Headless 기반을 Radix UI에서 [Base UI](https://base-ui.com)로 전환했습니다.
-> 자세한 배경은 [Headless 라이브러리 선택](#headless-라이브러리-선택) 참조.
+> **v2.0.0** — 테마가 디자인 테마 · 컬러 모드 두 축으로 갈라졌고, 라이브러리가 완성된
+> 스타일시트를 직접 싣습니다. 올라오는 법은 [v1에서 올라올 때](#v1에서-올라올-때) 참조.
+> Headless 기반은 v1.0.0에서 Radix UI에서 [Base UI](https://base-ui.com)로 바꿨습니다 —
+> 배경은 [Headless 라이브러리 선택](#headless-라이브러리-선택) 참조.
 
 ## 🚀 시작하기 (Getting Started)
 
@@ -16,6 +18,19 @@ npm install my-ui-lib
 yarn add my-ui-lib
 ```
 
+### 스타일시트 불러오기 (Stylesheet)
+
+**설치 다음에 반드시 해야 하는 단계다.** 앱 진입점에서 한 번 불러온다.
+
+```tsx
+import "@junseop-shin/my-ui-lib/styles.css";
+```
+
+이 파일에는 컴포넌트가 쓰는 유틸리티와 디자인 테마 6종의 토큰 블록이 모두 들어 있다.
+미리 빌드된 파일이므로 **소비자 쪽에 Tailwind가 없어도 된다.** 소비자가 Tailwind를 쓰더라도
+이 스타일시트를 따로 불러와야 한다 — `rounded-button` `h-button-md` 같은 클래스는
+라이브러리의 `@theme` 블록이 있어야만 생기고, 소비자의 Tailwind는 그 블록을 모른다.
+
 ### 필수 의존성 (Peer Dependencies)
 
 이 라이브러리는 다음 패키지들을 필요로 합니다:
@@ -23,29 +38,31 @@ yarn add my-ui-lib
 - `tailwindcss` (v4 권장)
 - `lucide-react` (아이콘)
 
-## 🎨 테마 시스템 (Theme System)
+## 테마
 
-3가지 테마를 기본 지원하며, CSS 변수를 통해 커스터마이징 가능합니다.
-
-1. **Light**: 깔끔한 화이트/슬레이트 그레이 조합
-2. **Dark**: 눈이 편안한 다크 그레이 조합
-3. **Finance**: 신뢰감을 주는 네이비/블루 조합 (블룸버그 스타일)
-
-### 설정 방법 (Setup)
-
-앱 최상단에 `ThemeProvider`를 감싸주세요.
+컬러 모드와 디자인 테마는 별개의 축이다. 디자인 테마 6종 각각이 light/dark 한 쌍을 가진다.
 
 ```tsx
-import { ThemeProvider } from 'my-ui-lib/context';
+import { ThemeProvider, useTheme, DESIGN_THEMES } from "@junseop-shin/my-ui-lib";
 
-function App() {
-  return (
-    <ThemeProvider defaultTheme="finance" storageKey="my-app-theme">
-      <YourApp />
-    </ThemeProvider>
-  );
-}
+<ThemeProvider defaultTheme="default" defaultMode="system">
+  <App />
+</ThemeProvider>
 ```
+
+```tsx
+const { theme, setTheme, mode, setMode, resolvedMode } = useTheme();
+// theme: default | finance | vintage-paper | mocha-mousse | neo-brutalism | claymorphism
+// mode: light | dark | system   resolvedMode: light | dark
+```
+
+Provider는 `<html>`에 `data-theme`과 `data-mode`를 꽂는다. `system`은 `matchMedia`로 풀어서 꽂으므로 DOM에는 `light`/`dark`만 들어간다. 저장 키는 `themeStorageKey`(기본 `ui-design-theme`) · `modeStorageKey`(기본 `ui-color-mode`) prop으로 바꿀 수 있다.
+
+테마 목록과 출처는 [docs/themes.md](docs/themes.md), 토큰 구조는 [docs/theme-axis-plan.md](docs/theme-axis-plan.md)를 본다.
+
+### v1에서 올라올 때
+
+`ThemeProvider`의 `theme` prop이 두 축으로 갈라졌다. `theme="dark"`는 `defaultMode="dark"`로, `theme="finance"`는 `defaultTheme="finance" defaultMode="dark"`로 바꾼다. 단일 `storageKey` prop은 없어지고 `themeStorageKey` · `modeStorageKey`로 나뉘었다. `localStorage`의 옛 `ui-theme` 키는 첫 실행에 자동으로 옮겨진다.
 
 ## 🧩 주요 컴포넌트 (Components)
 

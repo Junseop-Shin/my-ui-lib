@@ -12,7 +12,7 @@ const Input = React.forwardRef<
   <InputPrimitive
     ref={ref}
     className={cn(
-      "flex h-10 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground transition-colors",
+      "flex h-input w-full rounded-input border-(length:--input-border-w) border-input bg-background px-input-x py-2 text-sm text-foreground placeholder:text-muted-foreground transition-colors",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-transparent",
       "disabled:cursor-not-allowed disabled:opacity-50",
       "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50",
@@ -20,6 +20,7 @@ const Input = React.forwardRef<
       className
     )}
     {...props}
+    data-ui="input"
   />
 ))
 Input.displayName = "Input"

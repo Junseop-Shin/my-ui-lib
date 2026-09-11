@@ -1,0 +1,144 @@
+/* finance — 기존 .finance(어두운 테마) 값을 dark 블록으로 옮기고, 같은 팔레트의 light 블록을 더했다. */
+[data-theme="finance"] {
+  --background: oklab(0.98 0 0);
+  --foreground: oklab(0.15 -0.01 -0.02);
+
+  --card: oklab(1 0 0);
+  --card-foreground: oklab(0.15 -0.01 -0.02);
+
+  --popover: oklab(1 0 0);
+  --popover-foreground: oklab(0.15 -0.01 -0.02);
+
+  --primary: oklab(0.55 -0.05 -0.18);
+  --primary-foreground: oklab(1 0 0);
+
+  --secondary: oklab(0.95 0 -0.01);
+  --secondary-foreground: oklab(0.15 -0.01 -0.02);
+
+  --muted: oklab(0.95 0 -0.01);
+  --muted-foreground: oklab(0.45 0 -0.03);
+
+  --accent: oklab(0.93 0 -0.01);
+  --accent-foreground: oklab(0.30 -0.02 -0.08);
+
+  --destructive: oklab(0.60 0.18 0.10);
+  --destructive-foreground: oklab(1 0 0);
+
+  --success: oklab(0.65 -0.15 0.05);
+  --success-foreground: oklab(1 0 0);
+
+  --warning: oklab(0.70 0.05 0.15);
+  --warning-foreground: oklab(0.13 0 0);
+
+  --info: oklab(0.60 -0.02 -0.10);
+  --info-foreground: oklab(1 0 0);
+
+  --border: oklab(0.88 0 -0.01);
+  --input: oklab(0.88 0 -0.01);
+  --ring: oklab(0.55 -0.05 -0.18);
+
+  --radius: 0.75rem;
+
+  --font-family-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
+  --font-family-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --tracking-normal: 0em;
+
+  --space: 0.25rem;
+
+  --shadow-color: 0 0 0;
+  --shadow-opacity: 0.4;
+  --shadow-blur: 6px;
+  --shadow-spread: 0px;
+  --shadow-offset-x: 0px;
+  --shadow-offset-y: 2px;
+
+  --duration-fast: 120ms;
+  --duration-normal: 200ms;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* L2 오버라이드 — v1의 생김새를 그대로 지킨다.
+     index.css의 일반 기본값(--radius 파생 · 한 겹 그림자)은 각진 테마를 위한 것이다. */
+  --button-radius: 9999px;
+  --badge-radius: 9999px;
+  --card-shadow: 0 1px 3px 0 rgb(var(--shadow-color) / var(--shadow-opacity)),
+                 0 1px 2px -1px rgb(var(--shadow-color) / var(--shadow-opacity));
+  --card-shadow-hover: 0 4px 6px -1px rgb(var(--shadow-color) / var(--shadow-opacity)),
+                       0 2px 4px -2px rgb(var(--shadow-color) / var(--shadow-opacity));
+  --dialog-shadow: 0 20px 25px -5px rgb(var(--shadow-color) / var(--shadow-opacity)),
+                   0 8px 10px -6px rgb(var(--shadow-color) / var(--shadow-opacity));
+
+  color-scheme: light;
+}
+
+[data-theme="finance"][data-mode="dark"] {
+  --background: oklab(0.12 -0.01 -0.04);
+  --foreground: oklab(0.88 -0.01 -0.01);
+
+  --card: oklab(0.20 -0.01 -0.03);
+  --card-foreground: oklab(0.88 -0.01 -0.01);
+
+  --popover: oklab(0.10 -0.01 -0.04);
+  --popover-foreground: oklab(0.88 -0.01 -0.01);
+
+  --primary: oklab(0.55 -0.05 -0.18);
+  --primary-foreground: oklab(1 0 0);
+
+  --secondary: oklab(0.20 -0.01 -0.03);
+  --secondary-foreground: oklab(0.95 0 0);
+
+  --muted: oklab(0.20 -0.01 -0.03);
+  --muted-foreground: oklab(0.65 0.01 -0.10);
+
+  --accent: oklab(0.20 -0.01 -0.03);
+  --accent-foreground: oklab(0.60 -0.02 -0.10);
+
+  --destructive: oklab(0.60 0.18 0.10);
+  --destructive-foreground: oklab(1 0 0);
+
+  --success: oklab(0.65 -0.15 0.05);
+  --success-foreground: oklab(1 0 0);
+
+  --warning: oklab(0.70 0.05 0.15);
+  --warning-foreground: oklab(0.13 0 0);
+
+  --info: oklab(0.60 -0.02 -0.10);
+  --info-foreground: oklab(1 0 0);
+
+  --border: oklab(0.30 -0.01 -0.04);
+  --input: oklab(0.30 -0.01 -0.04);
+  --ring: oklab(0.55 -0.05 -0.18);
+
+  --radius: 0.75rem;
+
+  --font-family-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
+  --font-family-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --tracking-normal: 0em;
+
+  --space: 0.25rem;
+
+  --shadow-color: 0 0 0;
+  --shadow-opacity: 0.4;
+  --shadow-blur: 6px;
+  --shadow-spread: 0px;
+  --shadow-offset-x: 0px;
+  --shadow-offset-y: 2px;
+
+  --duration-fast: 120ms;
+  --duration-normal: 200ms;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* L2 오버라이드 — v1의 생김새를 그대로 지킨다.
+     index.css의 일반 기본값(--radius 파생 · 한 겹 그림자)은 각진 테마를 위한 것이다. */
+  --button-radius: 9999px;
+  --badge-radius: 9999px;
+  --card-shadow: 0 1px 3px 0 rgb(var(--shadow-color) / var(--shadow-opacity)),
+                 0 1px 2px -1px rgb(var(--shadow-color) / var(--shadow-opacity));
+  --card-shadow-hover: 0 4px 6px -1px rgb(var(--shadow-color) / var(--shadow-opacity)),
+                       0 2px 4px -2px rgb(var(--shadow-color) / var(--shadow-opacity));
+  --dialog-shadow: 0 20px 25px -5px rgb(var(--shadow-color) / var(--shadow-opacity)),
+                   0 8px 10px -6px rgb(var(--shadow-color) / var(--shadow-opacity));
+
+  color-scheme: dark;
+}

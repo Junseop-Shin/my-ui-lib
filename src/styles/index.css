@@ -1,6 +1,64 @@
-@import "tailwindcss";
+/* source("../")로 스캔 범위를 src/ 하나로 묶는다. 범위를 지정하지 않으면 Tailwind가
+   cwd 전체를 훑어 docs/*.md의 예시 클래스까지 유틸리티로 찍어낸다. */
+@import "tailwindcss" source("../");
+
+@import "./themes/default.css";
+@import "./themes/finance.css";
+@import "./themes/vintage-paper.css";
+@import "./themes/mocha-mousse.css";
+@import "./themes/neo-brutalism.css";
+@import "./themes/claymorphism.css";
+
+/* ─── dark: 변형을 모드 축에 붙인다 ─── */
+/* Tailwind 기본 dark:는 @media (prefers-color-scheme: dark)라 OS 설정만 보고 켜진다.
+   data-mode="light"인데도 켜지는 문제가 있어 속성 선택자로 다시 선언한다. */
+@custom-variant dark (&:where([data-mode="dark"] *));
+
+/* ─── 파생 토큰 — 테마가 정의한 6값에서 그림자를 한 번만 조립한다 ─── */
+/* 주의: --shadow-sm|md|lg는 Tailwind 자신의 theme 키와 이름이 겹쳐 그 값을 가린다.
+   여기서 만드는 값은 한 겹(single layer)이고 음수 spread가 없다 — Tailwind 기본값은 두 겹이다.
+   그래서 var(--shadow-sm)을 쓰면 Tailwind 값이 아니라 테마가 조립한 값을 받는다.
+   v1 렌더링을 지켜야 하는 컴포넌트는 이 토큰 대신 자기 L2 그림자 토큰을 쓴다. */
+:root {
+  --shadow-sm: var(--shadow-offset-x) var(--shadow-offset-y) var(--shadow-blur) var(--shadow-spread) rgb(var(--shadow-color) / var(--shadow-opacity));
+  --shadow-md: var(--shadow-offset-x) calc(var(--shadow-offset-y) * 2) calc(var(--shadow-blur) * 2) var(--shadow-spread) rgb(var(--shadow-color) / var(--shadow-opacity));
+  --shadow-lg: var(--shadow-offset-x) calc(var(--shadow-offset-y) * 4) calc(var(--shadow-blur) * 4) var(--shadow-spread) rgb(var(--shadow-color) / var(--shadow-opacity));
+}
+
+/* ─── L2 컴포넌트 토큰 — 기본값은 L1에서 파생한다. 테마가 덮어쓴다 ─── */
+/* :where()로 감싸 특이도를 0으로 낮춘다. 테마 블록의 [data-theme=...]와 :root는 특이도가
+   같은데 테마 파일이 위에서 @import되므로, 그냥 :root로 쓰면 여기가 항상 이겨서
+   테마의 L2 오버라이드가 먹지 않는다. */
+:where(:root) {
+  --button-radius: var(--radius);
+  --button-h-sm: 2rem;
+  --button-h-md: 2.5rem;
+  --button-h-lg: 3rem;
+  --button-px-sm: 1rem;
+  --button-px-md: 1.25rem;
+  --button-px-lg: 1.75rem;
+
+  --input-h: 2.5rem;
+  --input-radius: calc(var(--radius) + 8px);
+  --input-border-w: 1px;
+  --input-px: 0.75rem;
+
+  --card-radius: calc(var(--radius) + 16px);
+  --card-padding: 1.5rem;
+  --card-shadow: var(--shadow-sm);
+  --card-shadow-hover: var(--shadow-md);
+
+  --badge-radius: var(--radius);
+  --badge-px: 0.625rem;
+  --badge-py: 0.125rem;
+
+  --dialog-radius: calc(var(--radius) + 16px);
+  --dialog-padding: 1.5rem;
+  --dialog-shadow: var(--shadow-lg);
+}
 
 @theme inline {
+  /* 색 */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
@@ -17,6 +75,8 @@
   --color-success-foreground: var(--success-foreground);
   --color-warning: var(--warning);
   --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -24,136 +84,51 @@
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
+
+  /* 형태 */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: var(--radius);
   --radius-lg: calc(var(--radius) + 4px);
   --radius-xl: calc(var(--radius) + 8px);
   --radius-2xl: calc(var(--radius) + 16px);
+
+  /* 타이포 */
   --font-sans: var(--font-family-sans);
-}
+  --font-serif: var(--font-family-serif);
+  --font-mono: var(--font-family-mono);
+  --tracking-theme: var(--tracking-normal);
 
-/* ─── Light (default) ─── */
-:root {
-  --background: oklch(100% 0 0);
-  --foreground: oklch(13% 0.004 285);
+  /* 공간 — Tailwind의 기본 간격 척도를 테마가 정한다 */
+  --spacing: var(--space);
 
-  --card: oklch(100% 0 0);
-  --card-foreground: oklch(13% 0.004 285);
+  /* 모션 — duration은 이름공간이 없어 여기 없다. CVA에서 duration-(--duration-normal)로 쓴다 */
+  --ease-theme: var(--ease);
 
-  --popover: oklch(100% 0 0);
-  --popover-foreground: oklch(13% 0.004 285);
+  /* L2 — 컴포넌트 토큰을 유틸리티로 */
+  --radius-button: var(--button-radius);
+  --spacing-button-sm: var(--button-h-sm);
+  --spacing-button-md: var(--button-h-md);
+  --spacing-button-lg: var(--button-h-lg);
+  --spacing-button-x-sm: var(--button-px-sm);
+  --spacing-button-x-md: var(--button-px-md);
+  --spacing-button-x-lg: var(--button-px-lg);
 
-  /* Apple Blue #0071e3 */
-  --primary: oklch(51% 0.195 256);
-  --primary-foreground: oklch(100% 0 0);
+  --radius-input: var(--input-radius);
+  --spacing-input: var(--input-h);
+  --spacing-input-x: var(--input-px);
 
-  /* #f5f5f7 */
-  --secondary: oklch(97% 0.002 285);
-  --secondary-foreground: oklch(13% 0.004 285);
+  --radius-card: var(--card-radius);
+  --spacing-card: var(--card-padding);
+  --shadow-card: var(--card-shadow);
+  --shadow-card-hover: var(--card-shadow-hover);
 
-  --muted: oklch(97% 0.002 285);
-  --muted-foreground: oklch(45% 0.005 285);
+  --radius-badge: var(--badge-radius);
+  --spacing-badge-x: var(--badge-px);
+  --spacing-badge-y: var(--badge-py);
 
-  --accent: oklch(94% 0.003 285);
-  --accent-foreground: oklch(13% 0.004 285);
-
-  --destructive: oklch(54% 0.22 25);
-  --destructive-foreground: oklch(100% 0 0);
-
-  --success: oklch(60% 0.17 142);
-  --success-foreground: oklch(100% 0 0);
-
-  --warning: oklch(80% 0.16 80);
-  --warning-foreground: oklch(13% 0.004 285);
-
-  --border: oklch(90% 0.003 285);
-  --input: oklch(90% 0.003 285);
-  --ring: oklch(51% 0.195 256);
-
-  --radius: 0.75rem;
-  --font-family-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
-
-  color-scheme: light;
-}
-
-/* ─── Dark ─── */
-.dark {
-  --background: oklch(0% 0 0);
-  --foreground: oklch(96% 0.002 285);
-
-  --card: oklch(11% 0.003 285);
-  --card-foreground: oklch(96% 0.002 285);
-
-  --popover: oklch(11% 0.003 285);
-  --popover-foreground: oklch(96% 0.002 285);
-
-  /* Apple Blue dark #2997ff */
-  --primary: oklch(68% 0.18 256);
-  --primary-foreground: oklch(100% 0 0);
-
-  /* #1c1c1e */
-  --secondary: oklch(15% 0.003 285);
-  --secondary-foreground: oklch(96% 0.002 285);
-
-  --muted: oklch(15% 0.003 285);
-  --muted-foreground: oklch(62% 0.005 285);
-
-  --accent: oklch(18% 0.003 285);
-  --accent-foreground: oklch(96% 0.002 285);
-
-  --destructive: oklch(60% 0.22 25);
-  --destructive-foreground: oklch(100% 0 0);
-
-  --success: oklch(65% 0.17 142);
-  --success-foreground: oklch(100% 0 0);
-
-  --warning: oklch(82% 0.16 80);
-  --warning-foreground: oklch(13% 0.004 285);
-
-  --border: oklch(22% 0.004 285);
-  --input: oklch(22% 0.004 285);
-  --ring: oklch(68% 0.18 256);
-
-  color-scheme: dark;
-}
-
-/* ─── Finance (legacy) ─── */
-.finance {
-  --background: oklab(0.12 -0.01 -0.04);
-  --foreground: oklab(0.88 -0.01 -0.01);
-
-  --card: oklab(0.20 -0.01 -0.03);
-  --card-foreground: oklab(0.88 -0.01 -0.01);
-
-  --popover: oklab(0.10 -0.01 -0.04);
-  --popover-foreground: oklab(0.88 -0.01 -0.01);
-
-  --primary: oklab(0.55 -0.05 -0.18);
-  --primary-foreground: oklab(1 0 0);
-
-  --secondary: oklab(0.20 -0.01 -0.03);
-  --secondary-foreground: oklab(0.95 0 0);
-
-  --muted: oklab(0.20 -0.01 -0.03);
-  --muted-foreground: oklab(0.65 0.01 -0.10);
-
-  --accent: oklab(0.20 -0.01 -0.03);
-  --accent-foreground: oklab(0.60 -0.02 -0.10);
-
-  --destructive: oklab(0.60 0.18 0.10);
-  --destructive-foreground: oklab(1 0 0);
-
-  --success: oklab(0.65 -0.15 0.05);
-  --success-foreground: oklab(1 0 0);
-
-  --warning: oklab(0.70 0.05 0.15);
-  --warning-foreground: oklab(0.13 0 0);
-
-  --border: oklab(0.30 -0.01 -0.04);
-  --input: oklab(0.30 -0.01 -0.04);
-  --ring: oklab(0.55 -0.05 -0.18);
-
-  color-scheme: dark;
+  --radius-dialog: var(--dialog-radius);
+  --spacing-dialog: var(--dialog-padding);
+  --shadow-dialog: var(--dialog-shadow);
 }
 
 /* ─── Base ─── */
@@ -168,6 +143,7 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-family-sans);
+  letter-spacing: var(--tracking-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;

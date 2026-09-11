@@ -36,16 +36,17 @@ const DialogContent = React.forwardRef<
       ref={ref}
       className={cn(
         "fixed left-[50%] top-[50%] z-50 w-full max-w-lg translate-x-[-50%] translate-y-[-50%]",
-        "rounded-2xl border border-border bg-background p-6 shadow-xl",
+        "rounded-dialog border border-border bg-background p-dialog shadow-dialog",
         "data-[open]:animate-in data-[closed]:animate-out",
         "data-[closed]:fade-out-0 data-[open]:fade-in-0",
         "data-[closed]:zoom-out-95 data-[open]:zoom-in-95",
         "data-[closed]:slide-out-to-left-1/2 data-[closed]:slide-out-to-top-[48%]",
         "data-[open]:slide-in-from-left-1/2 data-[open]:slide-in-from-top-[48%]",
-        "duration-200",
+        "duration-(--duration-normal)",
         className
       )}
       {...props}
+      data-ui="dialog"
     >
       {children}
       <DialogPrimitive.Close className="absolute right-4 top-4 rounded-full p-1 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring">

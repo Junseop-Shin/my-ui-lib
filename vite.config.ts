@@ -1,7 +1,23 @@
+import { readFileSync } from "node:fs"
 import path from "path"
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import dts from 'vite-plugin-dts'
+
+const pkg = JSON.parse(
+  readFileSync(path.resolve(__dirname, 'package.json'), 'utf8')
+) as { dependencies?: Record<string, string>; peerDependencies?: Record<string, string> }
+
+// dependencies·peerDependencies는 소비자가 제공한다. 하위 경로(react/jsx-runtime 등)까지
+// 걸러야 한다 — 정확히 일치하는 목록으로는 잡히지 않아 번들에 들어가고, 그것들이 CJS 파일을
+// 끌고 오면 rolldown이 require 심을 심어 소비자 앱 하이드레이션에서 터진다.
+const externalNames = [
+  ...Object.keys(pkg.dependencies ?? {}),
+  ...Object.keys(pkg.peerDependencies ?? {}),
+  'tailwindcss',
+]
+const isExternal = (id: string) =>
+  externalNames.some((n) => id === n || id.startsWith(n + '/'))
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -30,13 +46,13 @@ export default defineConfig({
       fileName: (format) => `my-ui-lib.${format}.js`
     },
     rollupOptions: {
-      external: [
-        'react',
-        'react-dom',
-        'lucide-react',
-        '@xyflow/react',
-        'tailwindcss'
-      ],
+      external: isExternal,
+      // UMD의 globals는 script 태그로 직접 불러올 때만 쓰이는데 이 라이브러리는 그 경로로
+      // 쓰이지 않는다. external이 늘면서 이름을 못 찾는다는 경고만 수십 줄 나와 이것만 끈다.
+      onwarn(warning, warn) {
+        if (warning.code === 'MISSING_GLOBAL_NAME') return
+        warn(warning)
+      },
       output: {
         globals: {
           react: 'React',

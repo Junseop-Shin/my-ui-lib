@@ -1,6 +1,17 @@
 @import "tailwindcss";
 
+@import "./themes/default.css";
+@import "./themes/finance.css";
+
+/* ─── 파생 토큰 — 테마가 정의한 6값에서 그림자를 한 번만 조립한다 ─── */
+:root {
+  --shadow-sm: var(--shadow-offset-x) var(--shadow-offset-y) var(--shadow-blur) var(--shadow-spread) rgb(var(--shadow-color) / var(--shadow-opacity));
+  --shadow-md: var(--shadow-offset-x) calc(var(--shadow-offset-y) * 2) calc(var(--shadow-blur) * 2) var(--shadow-spread) rgb(var(--shadow-color) / var(--shadow-opacity));
+  --shadow-lg: var(--shadow-offset-x) calc(var(--shadow-offset-y) * 4) calc(var(--shadow-blur) * 4) var(--shadow-spread) rgb(var(--shadow-color) / var(--shadow-opacity));
+}
+
 @theme inline {
+  /* 색 */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
@@ -17,6 +28,8 @@
   --color-success-foreground: var(--success-foreground);
   --color-warning: var(--warning);
   --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -24,136 +37,30 @@
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
+
+  /* 형태 */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: var(--radius);
   --radius-lg: calc(var(--radius) + 4px);
   --radius-xl: calc(var(--radius) + 8px);
   --radius-2xl: calc(var(--radius) + 16px);
+
+  /* 타이포 */
   --font-sans: var(--font-family-sans);
-}
+  --font-serif: var(--font-family-serif);
+  --font-mono: var(--font-family-mono);
+  --tracking-theme: var(--tracking-normal);
 
-/* ─── Light (default) ─── */
-:root {
-  --background: oklch(100% 0 0);
-  --foreground: oklch(13% 0.004 285);
+  /* 공간 — Tailwind의 기본 간격 척도를 테마가 정한다 */
+  --spacing: var(--space);
 
-  --card: oklch(100% 0 0);
-  --card-foreground: oklch(13% 0.004 285);
+  /* 그림자 */
+  --shadow-theme-sm: var(--shadow-sm);
+  --shadow-theme-md: var(--shadow-md);
+  --shadow-theme-lg: var(--shadow-lg);
 
-  --popover: oklch(100% 0 0);
-  --popover-foreground: oklch(13% 0.004 285);
-
-  /* Apple Blue #0071e3 */
-  --primary: oklch(51% 0.195 256);
-  --primary-foreground: oklch(100% 0 0);
-
-  /* #f5f5f7 */
-  --secondary: oklch(97% 0.002 285);
-  --secondary-foreground: oklch(13% 0.004 285);
-
-  --muted: oklch(97% 0.002 285);
-  --muted-foreground: oklch(45% 0.005 285);
-
-  --accent: oklch(94% 0.003 285);
-  --accent-foreground: oklch(13% 0.004 285);
-
-  --destructive: oklch(54% 0.22 25);
-  --destructive-foreground: oklch(100% 0 0);
-
-  --success: oklch(60% 0.17 142);
-  --success-foreground: oklch(100% 0 0);
-
-  --warning: oklch(80% 0.16 80);
-  --warning-foreground: oklch(13% 0.004 285);
-
-  --border: oklch(90% 0.003 285);
-  --input: oklch(90% 0.003 285);
-  --ring: oklch(51% 0.195 256);
-
-  --radius: 0.75rem;
-  --font-family-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
-
-  color-scheme: light;
-}
-
-/* ─── Dark ─── */
-.dark {
-  --background: oklch(0% 0 0);
-  --foreground: oklch(96% 0.002 285);
-
-  --card: oklch(11% 0.003 285);
-  --card-foreground: oklch(96% 0.002 285);
-
-  --popover: oklch(11% 0.003 285);
-  --popover-foreground: oklch(96% 0.002 285);
-
-  /* Apple Blue dark #2997ff */
-  --primary: oklch(68% 0.18 256);
-  --primary-foreground: oklch(100% 0 0);
-
-  /* #1c1c1e */
-  --secondary: oklch(15% 0.003 285);
-  --secondary-foreground: oklch(96% 0.002 285);
-
-  --muted: oklch(15% 0.003 285);
-  --muted-foreground: oklch(62% 0.005 285);
-
-  --accent: oklch(18% 0.003 285);
-  --accent-foreground: oklch(96% 0.002 285);
-
-  --destructive: oklch(60% 0.22 25);
-  --destructive-foreground: oklch(100% 0 0);
-
-  --success: oklch(65% 0.17 142);
-  --success-foreground: oklch(100% 0 0);
-
-  --warning: oklch(82% 0.16 80);
-  --warning-foreground: oklch(13% 0.004 285);
-
-  --border: oklch(22% 0.004 285);
-  --input: oklch(22% 0.004 285);
-  --ring: oklch(68% 0.18 256);
-
-  color-scheme: dark;
-}
-
-/* ─── Finance (legacy) ─── */
-.finance {
-  --background: oklab(0.12 -0.01 -0.04);
-  --foreground: oklab(0.88 -0.01 -0.01);
-
-  --card: oklab(0.20 -0.01 -0.03);
-  --card-foreground: oklab(0.88 -0.01 -0.01);
-
-  --popover: oklab(0.10 -0.01 -0.04);
-  --popover-foreground: oklab(0.88 -0.01 -0.01);
-
-  --primary: oklab(0.55 -0.05 -0.18);
-  --primary-foreground: oklab(1 0 0);
-
-  --secondary: oklab(0.20 -0.01 -0.03);
-  --secondary-foreground: oklab(0.95 0 0);
-
-  --muted: oklab(0.20 -0.01 -0.03);
-  --muted-foreground: oklab(0.65 0.01 -0.10);
-
-  --accent: oklab(0.20 -0.01 -0.03);
-  --accent-foreground: oklab(0.60 -0.02 -0.10);
-
-  --destructive: oklab(0.60 0.18 0.10);
-  --destructive-foreground: oklab(1 0 0);
-
-  --success: oklab(0.65 -0.15 0.05);
-  --success-foreground: oklab(1 0 0);
-
-  --warning: oklab(0.70 0.05 0.15);
-  --warning-foreground: oklab(0.13 0 0);
-
-  --border: oklab(0.30 -0.01 -0.04);
-  --input: oklab(0.30 -0.01 -0.04);
-  --ring: oklab(0.55 -0.05 -0.18);
-
-  color-scheme: dark;
+  /* 모션 — duration은 이름공간이 없어 여기 없다. CVA에서 duration-(--duration-normal)로 쓴다 */
+  --ease-theme: var(--ease);
 }
 
 /* ─── Base ─── */
@@ -168,6 +75,7 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-family-sans);
+  letter-spacing: var(--tracking-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;

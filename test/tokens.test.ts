@@ -38,6 +38,16 @@ describe("theme token parity", () => {
     ]);
   });
 
+  it("every non-default theme file defines exactly its light and dark block", () => {
+    for (const file of files.filter((f) => f !== "default.css")) {
+      const name = file.replace(/\.css$/, "");
+      expect({ file, selectors: [...parseThemeBlocks(read(file)).keys()] }).toEqual({
+        file,
+        selectors: [`[data-theme="${name}"]`, `[data-theme="${name}"][data-mode="dark"]`],
+      });
+    }
+  });
+
   it("every block defines exactly the same token names as default light", () => {
     const baseline = parseThemeBlocks(read("default.css")).get(':root, [data-theme="default"]')!;
     expect(baseline.size).toBe(40);

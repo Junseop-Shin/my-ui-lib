@@ -78,7 +78,8 @@
 
   /* Apple Blue dark #2997ff */
   --primary: oklch(68% 0.18 256);
-  --primary-foreground: oklch(100% 0 0);
+  /* 밝은 파랑 위의 흰 글씨는 2.93:1이라 버튼 라벨이 읽히지 않는다. 어두운 전경으로 뒤집는다 */
+  --primary-foreground: oklch(18% 0.02 256);
 
   /* #1c1c1e */
   --secondary: oklch(15% 0.003 285);
@@ -90,17 +91,18 @@
   --accent: oklch(18% 0.003 285);
   --accent-foreground: oklch(96% 0.002 285);
 
-  --destructive: oklch(60% 0.22 25);
+  /* 60%에서는 흰 글씨가 4.41:1로 AA 미달이라 58%로 낮춘다 */
+  --destructive: oklch(58% 0.22 25);
   --destructive-foreground: oklch(100% 0 0);
 
   --success: oklch(65% 0.17 142);
-  --success-foreground: oklch(100% 0 0);
+  --success-foreground: oklch(16% 0.02 142);
 
   --warning: oklch(82% 0.16 80);
   --warning-foreground: oklch(13% 0.004 285);
 
   --info: oklch(68% 0.15 240);
-  --info-foreground: oklch(100% 0 0);
+  --info-foreground: oklch(16% 0.02 240);
 
   --border: oklch(22% 0.004 285);
   --input: oklch(22% 0.004 285);

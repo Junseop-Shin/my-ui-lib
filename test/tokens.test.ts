@@ -27,7 +27,10 @@ describe("theme token parity", () => {
   const files = readdirSync(THEMES_DIR).filter((f) => f.endsWith(".css")).sort();
 
   it("ships one file per design theme", () => {
-    expect(files).toEqual(["default.css", "finance.css"]);
+    expect(files).toEqual([
+      "claymorphism.css", "default.css", "finance.css",
+      "mocha-mousse.css", "neo-brutalism.css", "vintage-paper.css",
+    ]);
   });
 
   it("default.css defines :root and a dark block", () => {

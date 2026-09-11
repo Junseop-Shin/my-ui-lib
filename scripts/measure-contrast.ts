@@ -1,8 +1,10 @@
 // 테마 × 모드 전 블록의 foreground/background 대비율을 잰다. Task 5가 docs/themes.md에 기록한다.
-import { existsSync, mkdtempSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { execSync } from "node:child_process";
+import { existsSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { chromium } from "playwright";
+import { resolveStorybookCss } from "./resolve-storybook-css";
 
 const THEMES = ["default", "finance", "vintage-paper", "mocha-mousse", "neo-brutalism", "claymorphism"];
 const MODES = ["light", "dark"];
@@ -22,18 +24,15 @@ function ratio(fg: number[], bg: number[]): number {
 
 const SB = new URL("../storybook-static/assets", import.meta.url).pathname;
 if (!existsSync(SB)) {
-  console.error("storybook-static이 없다. npm run build-storybook 먼저.");
-  process.exit(1);
+  console.error("storybook-static이 없다. npm run build-storybook을 먼저 실행한다...");
+  execSync("npm run build-storybook", { stdio: "inherit" });
 }
-const css = readdirSync(SB)
-  .filter((f) => f.endsWith(".css"))
-  .map((f) => ({ f, size: statSync(join(SB, f)).size }))
-  .sort((a, b) => b.size - a.size)[0].f;
+const cssPath = resolveStorybookCss(SB);
 
 const dir = mkdtempSync(join(tmpdir(), "contrast-"));
 writeFileSync(
   join(dir, "index.html"),
-  `<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="file://${join(SB, css)}">
+  `<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="file://${cssPath}">
    <body><div id="p" style="background: var(--background); color: var(--foreground)">x</div>
    <div id="m" style="background: var(--background); color: var(--muted-foreground)">x</div></body>`,
 );

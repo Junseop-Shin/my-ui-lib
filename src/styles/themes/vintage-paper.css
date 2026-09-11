@@ -1,0 +1,122 @@
+/* vintage-paper — 잉크·종이. 출처: tweakcn (Apache-2.0), https://tweakcn.com/r/themes/vintage-paper.json */
+[data-theme="vintage-paper"] {
+  --background: oklch(0.9582 0.0152 90.2357);
+  --foreground: oklch(0.3760 0.0225 64.3434);
+
+  --card: oklch(0.9914 0.0098 87.4695);
+  --card-foreground: oklch(0.3760 0.0225 64.3434);
+
+  --popover: oklch(0.9914 0.0098 87.4695);
+  --popover-foreground: oklch(0.3760 0.0225 64.3434);
+
+  --primary: oklch(0.6180 0.0778 65.5444);
+  --primary-foreground: oklch(1.0000 0 0);
+
+  --secondary: oklch(0.8846 0.0302 85.5655);
+  --secondary-foreground: oklch(0.4313 0.0300 64.9288);
+
+  --muted: oklch(0.9239 0.0190 83.0636);
+  --muted-foreground: oklch(0.5391 0.0387 71.1655);
+
+  --accent: oklch(0.8348 0.0426 88.8064);
+  --accent-foreground: oklch(0.3760 0.0225 64.3434);
+
+  --destructive: oklch(0.5471 0.1438 32.9149);
+  --destructive-foreground: oklch(1.0000 0 0);
+
+  --success: oklch(60% 0.17 142);
+  --success-foreground: oklch(100% 0 0);
+
+  --warning: oklch(80% 0.16 80);
+  --warning-foreground: oklch(13% 0.004 285);
+
+  --info: oklch(60% 0.15 240);
+  --info-foreground: oklch(100% 0 0);
+
+  --border: oklch(0.8606 0.0321 84.5881);
+  --input: oklch(0.8606 0.0321 84.5881);
+  --ring: oklch(0.6180 0.0778 65.5444);
+
+  --radius: 0.25rem;
+
+  --font-family-sans: Libre Baskerville, serif;
+  --font-family-serif: Lora, serif;
+  --font-family-mono: IBM Plex Mono, monospace;
+  --tracking-normal: 0em;
+
+  --space: 0.25rem;
+
+  --shadow-color: 0 0 0;
+  --shadow-opacity: 0.12;
+  --shadow-blur: 5px;
+  --shadow-spread: 0px;
+  --shadow-offset-x: 2px;
+  --shadow-offset-y: 3px;
+
+  --duration-fast: 120ms;
+  --duration-normal: 200ms;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  color-scheme: light;
+}
+
+[data-theme="vintage-paper"][data-mode="dark"] {
+  --background: oklch(0.2747 0.0139 57.6523);
+  --foreground: oklch(0.9239 0.0190 83.0636);
+
+  --card: oklch(0.3237 0.0155 59.0603);
+  --card-foreground: oklch(0.9239 0.0190 83.0636);
+
+  --popover: oklch(0.3237 0.0155 59.0603);
+  --popover-foreground: oklch(0.9239 0.0190 83.0636);
+
+  --primary: oklch(0.7264 0.0581 66.6967);
+  --primary-foreground: oklch(0.2747 0.0139 57.6523);
+
+  --secondary: oklch(0.3795 0.0181 57.1280);
+  --secondary-foreground: oklch(0.9239 0.0190 83.0636);
+
+  --muted: oklch(0.2939 0.0125 62.1298);
+  --muted-foreground: oklch(0.7982 0.0243 82.1078);
+
+  --accent: oklch(0.4186 0.0281 56.3404);
+  --accent-foreground: oklch(0.9239 0.0190 83.0636);
+
+  --destructive: oklch(0.5471 0.1438 32.9149);
+  --destructive-foreground: oklch(1.0000 0 0);
+
+  --success: oklch(65% 0.17 142);
+  --success-foreground: oklch(100% 0 0);
+
+  --warning: oklch(82% 0.16 80);
+  --warning-foreground: oklch(13% 0.004 285);
+
+  --info: oklch(68% 0.15 240);
+  --info-foreground: oklch(100% 0 0);
+
+  --border: oklch(0.3795 0.0181 57.1280);
+  --input: oklch(0.3795 0.0181 57.1280);
+  --ring: oklch(0.7264 0.0581 66.6967);
+
+  --radius: 0.25rem;
+
+  --font-family-sans: Libre Baskerville, serif;
+  --font-family-serif: Lora, serif;
+  --font-family-mono: IBM Plex Mono, monospace;
+  --tracking-normal: 0em;
+
+  --space: 0.25rem;
+
+  --shadow-color: 0 0 0;
+  --shadow-opacity: 0.12;
+  --shadow-blur: 5px;
+  --shadow-spread: 0px;
+  --shadow-offset-x: 2px;
+  --shadow-offset-y: 3px;
+
+  --duration-fast: 120ms;
+  --duration-normal: 200ms;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  color-scheme: dark;
+}

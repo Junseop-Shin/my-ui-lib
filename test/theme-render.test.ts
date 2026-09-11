@@ -1,36 +1,34 @@
 // jsdom은 @import한 CSS를 계산하지 않으므로 Playwright로 진짜 브라우저를 쓴다.
 // vitest.config.ts의 'tokens' 프로젝트가 test/**/*.test.ts를 node 환경으로 돌린다.
-import { existsSync, mkdtempSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { chromium, type Browser } from "playwright";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { resolveStorybookCss } from "../scripts/resolve-storybook-css";
 
 const SB = new URL("../storybook-static/assets", import.meta.url).pathname;
-const cssFile = existsSync(SB)
-  ? readdirSync(SB)
-      .filter((f) => f.endsWith(".css"))
-      .map((f) => ({ f, size: statSync(join(SB, f)).size }))
-      .sort((a, b) => b.size - a.size)[0]?.f
-  : undefined;
-
-let browser: Browser;
-let pageUrl: string;
+const sbExists = existsSync(SB);
 
 // 빌드 산출물이 없으면 실패시키지 않고 건너뛴다.
 // vitest 기본 리포터는 실행된 테스트가 0인 파일의 console 출력을 감추므로 stderr로 직접 쓴다.
-if (!cssFile) {
+if (!sbExists) {
   process.stderr.write(
     "[theme-render] storybook-static/assets에 CSS가 없어 건너뛴다. npm run build-storybook 먼저.\n",
   );
 }
-const suite = cssFile ? describe : describe.skip;
+const suite = sbExists ? describe : describe.skip;
+// sbExists일 때만 이 지점에 닿는다 — 마커가 없으면(청킹이 바뀌면) 여기서 크게 실패한다.
+const cssPath = sbExists ? resolveStorybookCss(SB) : undefined;
+
+let browser: Browser;
+let pageUrl: string;
 
 suite("테마 적용", () => {
   beforeAll(async () => {
     const dir = mkdtempSync(join(tmpdir(), "theme-render-"));
     const html = `<!doctype html><meta charset="utf-8">
-<link rel="stylesheet" href="file://${join(SB, cssFile!)}">
+<link rel="stylesheet" href="file://${cssPath!}">
 <body><div id="probe" style="background: var(--background); color: var(--foreground)">x</div>
 <button data-ui="button" class="h-button-md rounded-button">b</button></body>`;
     writeFileSync(join(dir, "index.html"), html);

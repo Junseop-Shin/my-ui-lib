@@ -2,6 +2,10 @@
 
 @import "./themes/default.css";
 @import "./themes/finance.css";
+@import "./themes/vintage-paper.css";
+@import "./themes/mocha-mousse.css";
+@import "./themes/neo-brutalism.css";
+@import "./themes/claymorphism.css";
 
 /* ─── 파생 토큰 — 테마가 정의한 6값에서 그림자를 한 번만 조립한다 ─── */
 /* 주의: --shadow-sm|md|lg는 Tailwind 자신의 theme 키와 이름이 겹쳐 그 값을 가린다.

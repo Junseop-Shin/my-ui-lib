@@ -35,6 +35,7 @@
     "test:storybook": "test-storybook",
     "test:storybook:ci": "concurrently -k -s first -n SB,TEST \"http-server storybook-static --port 6006 --silent\" \"wait-on tcp:127.0.0.1:6006 && test-storybook\"",
     "test:contrast": "tsx scripts/measure-contrast.ts",
+    "test:render": "npm run build-storybook && vitest run theme-render",
     "build-storybook": "storybook build"
   },
   "dependencies": {

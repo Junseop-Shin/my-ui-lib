@@ -35,6 +35,16 @@ if (typeof window !== 'undefined' && !window.PointerEvent) {
     window.PointerEvent = PointerEventPolyfill as unknown as typeof PointerEvent;
 }
 
+// Node 25는 동작하지 않는 localStorage 전역을 미리 정의한다. vitest의 jsdom 환경은
+// 이미 전역에 있는 키를 덮어쓰지 않아 jsdom의 Storage가 가려진다. 되돌려 놓는다.
+const jsdomWindow = (globalThis as { jsdom?: { window: Window } }).jsdom?.window;
+if (jsdomWindow) {
+    Object.defineProperty(globalThis, 'localStorage', {
+        get: () => jsdomWindow.localStorage,
+        configurable: true,
+    });
+}
+
 // Runs a cleanup after each test case (e.g. clearing jsdom)
 afterEach(() => {
     cleanup();

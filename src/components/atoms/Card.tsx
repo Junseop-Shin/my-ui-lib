@@ -9,7 +9,9 @@ const CardRoot = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-card border border-border bg-card text-card-foreground shadow-card transition-shadow duration-(--duration-normal) hover:shadow-theme-md",
+      // transition은 Tailwind 기본 150ms를 쓴다. duration-(--duration-normal)은 200ms라
+      // v1 렌더링이 달라진다 — Card는 정체성 보존을 택해 모션 축에서 빠진다.
+      "rounded-card border border-border bg-card text-card-foreground shadow-card transition-shadow hover:shadow-card-hover",
       className
     )}
     {...props}

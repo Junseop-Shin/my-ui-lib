@@ -3,7 +3,9 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const badgeVariants = cva(
-  "inline-flex items-center rounded-badge border px-badge-x py-badge-y text-xs font-medium transition-colors duration-(--duration-normal)",
+  // transition은 Tailwind 기본 150ms를 쓴다. duration-(--duration-normal)은 200ms라
+  // v1 렌더링이 달라진다 — Badge는 정체성 보존을 택해 모션 축에서 빠진다.
+  "inline-flex items-center rounded-badge border px-badge-x py-badge-y text-xs font-medium transition-colors",
   {
     variants: {
       variant: {

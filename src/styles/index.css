@@ -4,6 +4,10 @@
 @import "./themes/finance.css";
 
 /* ─── 파생 토큰 — 테마가 정의한 6값에서 그림자를 한 번만 조립한다 ─── */
+/* 주의: --shadow-sm|md|lg는 Tailwind 자신의 theme 키와 이름이 겹쳐 그 값을 가린다.
+   여기서 만드는 값은 한 겹(single layer)이고 음수 spread가 없다 — Tailwind 기본값은 두 겹이다.
+   그래서 var(--shadow-sm)을 쓰면 Tailwind 값이 아니라 테마가 조립한 값을 받는다.
+   v1 렌더링을 지켜야 하는 컴포넌트는 이 토큰 대신 자기 L2 그림자 토큰을 쓴다. */
 :root {
   --shadow-sm: var(--shadow-offset-x) var(--shadow-offset-y) var(--shadow-blur) var(--shadow-spread) rgb(var(--shadow-color) / var(--shadow-opacity));
   --shadow-md: var(--shadow-offset-x) calc(var(--shadow-offset-y) * 2) calc(var(--shadow-blur) * 2) var(--shadow-spread) rgb(var(--shadow-color) / var(--shadow-opacity));
@@ -27,7 +31,12 @@
 
   --card-radius: calc(var(--radius) + 16px);
   --card-padding: 1.5rem;
-  --card-shadow: var(--shadow-sm);
+  /* v1의 Tailwind shadow-sm·shadow-md를 L1 색/불투명도 변수로 옮겨 적었다.
+     --shadow-sm|md는 한 겹이라 두 겹인 v1 값을 표현하지 못한다 */
+  --card-shadow: 0 1px 3px 0 rgb(var(--shadow-color) / var(--shadow-opacity)),
+                 0 1px 2px -1px rgb(var(--shadow-color) / var(--shadow-opacity));
+  --card-shadow-hover: 0 4px 6px -1px rgb(var(--shadow-color) / var(--shadow-opacity)),
+                       0 2px 4px -2px rgb(var(--shadow-color) / var(--shadow-opacity));
 
   --badge-radius: 9999px;
   --badge-px: 0.625rem;
@@ -35,6 +44,9 @@
 
   --dialog-radius: calc(var(--radius) + 16px);
   --dialog-padding: 1.5rem;
+  /* v1의 Tailwind shadow-xl */
+  --dialog-shadow: 0 20px 25px -5px rgb(var(--shadow-color) / var(--shadow-opacity)),
+                   0 8px 10px -6px rgb(var(--shadow-color) / var(--shadow-opacity));
 }
 
 @theme inline {
@@ -105,6 +117,7 @@
   --radius-card: var(--card-radius);
   --spacing-card: var(--card-padding);
   --shadow-card: var(--card-shadow);
+  --shadow-card-hover: var(--card-shadow-hover);
 
   --radius-badge: var(--badge-radius);
   --spacing-badge-x: var(--badge-px);
@@ -112,6 +125,7 @@
 
   --radius-dialog: var(--dialog-radius);
   --spacing-dialog: var(--dialog-padding);
+  --shadow-dialog: var(--dialog-shadow);
 }
 
 /* ─── Base ─── */

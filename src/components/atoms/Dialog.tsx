@@ -36,7 +36,7 @@ const DialogContent = React.forwardRef<
       ref={ref}
       className={cn(
         "fixed left-[50%] top-[50%] z-50 w-full max-w-lg translate-x-[-50%] translate-y-[-50%]",
-        "rounded-dialog border border-border bg-background p-dialog shadow-theme-lg",
+        "rounded-dialog border border-border bg-background p-dialog shadow-dialog",
         "data-[open]:animate-in data-[closed]:animate-out",
         "data-[closed]:fade-out-0 data-[open]:fade-in-0",
         "data-[closed]:zoom-out-95 data-[open]:zoom-in-95",

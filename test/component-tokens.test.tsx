@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { Badge } from "@/components/atoms/Badge";
 import { Button } from "@/components/atoms/Button";
 import { Card } from "@/components/atoms/Card";
+import { Dialog } from "@/components/atoms/Dialog";
 import { Input } from "@/components/atoms/Input";
 
 describe("data-ui 계약", () => {
@@ -24,6 +25,50 @@ describe("data-ui 계약", () => {
   it("호출자가 data-ui를 덮어쓰지 못한다", () => {
     render(<Button {...({ "data-ui": "sneaky" } as Record<string, string>)}>x</Button>);
     expect(screen.getByRole("button").getAttribute("data-ui")).toBe("button");
+  });
+
+  it("variant · size도 호출자가 덮어쓰지 못한다", () => {
+    render(
+      <Button
+        variant="ghost"
+        size="lg"
+        {...({ "data-variant": "sneaky", "data-size": "sneaky" } as Record<string, string>)}
+      >
+        x
+      </Button>,
+    );
+    const el = screen.getByRole("button");
+    expect(el.getAttribute("data-variant")).toBe("ghost");
+    expect(el.getAttribute("data-size")).toBe("lg");
+  });
+
+  it("Badge도 호출자가 덮어쓰지 못한다", () => {
+    const { container } = render(
+      <Badge
+        variant="success"
+        {...({ "data-ui": "sneaky", "data-variant": "sneaky" } as Record<string, string>)}
+      >
+        b
+      </Badge>,
+    );
+    const el = container.querySelector('[data-ui="badge"]');
+    expect(el).not.toBeNull();
+    expect(el?.getAttribute("data-variant")).toBe("success");
+  });
+
+  it("Dialog Popup은 ui를 달고 L2 유틸리티를 쓴다", () => {
+    render(
+      <Dialog open>
+        <Dialog.Content>
+          <Dialog.Title>t</Dialog.Title>
+        </Dialog.Content>
+      </Dialog>,
+    );
+    const el = document.querySelector('[data-ui="dialog"]') as HTMLElement;
+    expect(el).not.toBeNull();
+    expect(el.className).toContain("rounded-dialog");
+    expect(el.className).toContain("p-dialog");
+    expect(el.className).toContain("shadow-dialog");
   });
 
   it("Input · Card · Badge도 단다", () => {

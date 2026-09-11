@@ -1,5 +1,8 @@
 /* default — 현재 my-ui-lib. Apple 계열. 색·radius·폰트 값은 기존 index.css에서 그대로 옮긴 것이다. */
-:root, [data-theme="default"] {
+/* :root에 :not([data-theme])를 붙여 "속성이 없을 때의 기본값"으로 좁혔다. 그냥 :root면
+   data-theme이 다른 테마일 때도 이 블록이 문서 전체의 바닥값으로 남아, 이 블록에만 있는
+   L2 오버라이드(알약 모서리 등)가 neo-brutalism까지 따라간다. */
+:root:not([data-theme]), [data-theme="default"] {
   --background: oklch(100% 0 0);
   --foreground: oklch(13% 0.004 285);
 
@@ -59,10 +62,21 @@
   --duration-normal: 200ms;
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
 
+  /* L2 오버라이드 — v1의 생김새를 그대로 지킨다.
+     index.css의 일반 기본값(--radius 파생 · 한 겹 그림자)은 각진 테마를 위한 것이다. */
+  --button-radius: 9999px;
+  --badge-radius: 9999px;
+  --card-shadow: 0 1px 3px 0 rgb(var(--shadow-color) / var(--shadow-opacity)),
+                 0 1px 2px -1px rgb(var(--shadow-color) / var(--shadow-opacity));
+  --card-shadow-hover: 0 4px 6px -1px rgb(var(--shadow-color) / var(--shadow-opacity)),
+                       0 2px 4px -2px rgb(var(--shadow-color) / var(--shadow-opacity));
+  --dialog-shadow: 0 20px 25px -5px rgb(var(--shadow-color) / var(--shadow-opacity)),
+                   0 8px 10px -6px rgb(var(--shadow-color) / var(--shadow-opacity));
+
   color-scheme: light;
 }
 
-[data-theme="default"][data-mode="dark"], :root[data-mode="dark"] {
+[data-theme="default"][data-mode="dark"], :root:not([data-theme])[data-mode="dark"] {
   --background: oklch(0% 0 0);
   --foreground: oklch(96% 0.002 285);
 
@@ -121,6 +135,17 @@
   --duration-fast: 120ms;
   --duration-normal: 200ms;
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* L2 오버라이드 — v1의 생김새를 그대로 지킨다.
+     index.css의 일반 기본값(--radius 파생 · 한 겹 그림자)은 각진 테마를 위한 것이다. */
+  --button-radius: 9999px;
+  --badge-radius: 9999px;
+  --card-shadow: 0 1px 3px 0 rgb(var(--shadow-color) / var(--shadow-opacity)),
+                 0 1px 2px -1px rgb(var(--shadow-color) / var(--shadow-opacity));
+  --card-shadow-hover: 0 4px 6px -1px rgb(var(--shadow-color) / var(--shadow-opacity)),
+                       0 2px 4px -2px rgb(var(--shadow-color) / var(--shadow-opacity));
+  --dialog-shadow: 0 20px 25px -5px rgb(var(--shadow-color) / var(--shadow-opacity)),
+                   0 8px 10px -6px rgb(var(--shadow-color) / var(--shadow-opacity));
 
   color-scheme: dark;
 }

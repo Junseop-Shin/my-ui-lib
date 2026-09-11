@@ -20,9 +20,12 @@
   --shadow-lg: var(--shadow-offset-x) calc(var(--shadow-offset-y) * 4) calc(var(--shadow-blur) * 4) var(--shadow-spread) rgb(var(--shadow-color) / var(--shadow-opacity));
 }
 
-/* ─── L2 컴포넌트 토큰 — 기본값은 L1에서 파생한다. 테마가 덮어쓸 수 있다 ─── */
-:root {
-  --button-radius: 9999px;
+/* ─── L2 컴포넌트 토큰 — 기본값은 L1에서 파생한다. 테마가 덮어쓴다 ─── */
+/* :where()로 감싸 특이도를 0으로 낮춘다. 테마 블록의 [data-theme=...]와 :root는 특이도가
+   같은데 테마 파일이 위에서 @import되므로, 그냥 :root로 쓰면 여기가 항상 이겨서
+   테마의 L2 오버라이드가 먹지 않는다. */
+:where(:root) {
+  --button-radius: var(--radius);
   --button-h-sm: 2rem;
   --button-h-md: 2.5rem;
   --button-h-lg: 3rem;
@@ -37,22 +40,16 @@
 
   --card-radius: calc(var(--radius) + 16px);
   --card-padding: 1.5rem;
-  /* v1의 Tailwind shadow-sm·shadow-md를 L1 색/불투명도 변수로 옮겨 적었다.
-     --shadow-sm|md는 한 겹이라 두 겹인 v1 값을 표현하지 못한다 */
-  --card-shadow: 0 1px 3px 0 rgb(var(--shadow-color) / var(--shadow-opacity)),
-                 0 1px 2px -1px rgb(var(--shadow-color) / var(--shadow-opacity));
-  --card-shadow-hover: 0 4px 6px -1px rgb(var(--shadow-color) / var(--shadow-opacity)),
-                       0 2px 4px -2px rgb(var(--shadow-color) / var(--shadow-opacity));
+  --card-shadow: var(--shadow-sm);
+  --card-shadow-hover: var(--shadow-md);
 
-  --badge-radius: 9999px;
+  --badge-radius: var(--radius);
   --badge-px: 0.625rem;
   --badge-py: 0.125rem;
 
   --dialog-radius: calc(var(--radius) + 16px);
   --dialog-padding: 1.5rem;
-  /* v1의 Tailwind shadow-xl */
-  --dialog-shadow: 0 20px 25px -5px rgb(var(--shadow-color) / var(--shadow-opacity)),
-                   0 8px 10px -6px rgb(var(--shadow-color) / var(--shadow-opacity));
+  --dialog-shadow: var(--shadow-lg);
 }
 
 @theme inline {

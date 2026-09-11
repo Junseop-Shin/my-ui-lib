@@ -30,7 +30,8 @@ suite("테마 적용", () => {
     const html = `<!doctype html><meta charset="utf-8">
 <link rel="stylesheet" href="file://${cssPath!}">
 <body><div id="probe" style="background: var(--background); color: var(--foreground)">x</div>
-<button data-ui="button" class="h-button-md rounded-button">b</button></body>`;
+<button data-ui="button" class="h-button-md rounded-button">b</button>
+<div id="card" data-ui="card" class="rounded-card shadow-card">c</div></body>`;
     writeFileSync(join(dir, "index.html"), html);
     pageUrl = `file://${join(dir, "index.html")}`;
     browser = await chromium.launch();
@@ -68,6 +69,30 @@ suite("테마 적용", () => {
       () => getComputedStyle(document.getElementById("probe")!).backgroundColor,
     );
     expect(light).not.toBe(dark);
+    await page.close();
+  }, 30_000);
+
+  // 이 테스트가 잡는 결함: L2 토큰이 리터럴이라 테마가 색만 바꾸고 형태는 못 바꾸던 상태.
+  it("테마는 색뿐 아니라 형태도 바꾼다 — neo-brutalism은 각지고 default는 알약이다", async () => {
+    const page = await browser.newPage();
+    await page.goto(pageUrl);
+    const readShape = () =>
+      page.evaluate(() => ({
+        radius: getComputedStyle(document.querySelector('[data-ui="button"]')!)
+          .borderTopLeftRadius,
+        shadow: getComputedStyle(document.getElementById("card")!).boxShadow,
+      }));
+
+    await page.evaluate(() => document.documentElement.setAttribute("data-theme", "default"));
+    const base = await readShape();
+    await page.evaluate(() =>
+      document.documentElement.setAttribute("data-theme", "neo-brutalism"),
+    );
+    const neo = await readShape();
+
+    expect(base.radius).toBe("9999px");
+    expect(neo.radius).toBe("0px");
+    expect(neo.shadow).not.toBe(base.shadow);
     await page.close();
   }, 30_000);
 

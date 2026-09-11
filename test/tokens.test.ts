@@ -23,8 +23,24 @@ describe("parseThemeBlocks", () => {
   });
 });
 
+// 테마 블록이 덮어써도 되는 L2 컴포넌트 토큰. 목록에 없는 이름이 나오면 실패한다 —
+// L1 40개는 여전히 모든 블록에 빠짐없이 있어야 한다.
+const L2_OVERRIDES = new Set([
+  "--button-radius",
+  "--badge-radius",
+  "--card-shadow",
+  "--card-shadow-hover",
+  "--dialog-shadow",
+]);
+
+const DEFAULT_LIGHT = ':root:not([data-theme]), [data-theme="default"]';
+const DEFAULT_DARK = '[data-theme="default"][data-mode="dark"], :root:not([data-theme])[data-mode="dark"]';
+
 describe("theme token parity", () => {
   const files = readdirSync(THEMES_DIR).filter((f) => f.endsWith(".css")).sort();
+  const L1_BASELINE = [...parseThemeBlocks(read("default.css")).get(DEFAULT_LIGHT)!].filter(
+    (t) => !L2_OVERRIDES.has(t),
+  );
 
   it("ships one file per design theme", () => {
     expect(files).toEqual([
@@ -36,8 +52,8 @@ describe("theme token parity", () => {
   it("default.css defines :root and a dark block", () => {
     const blocks = parseThemeBlocks(read("default.css"));
     expect([...blocks.keys()]).toEqual([
-      ':root, [data-theme="default"]',
-      '[data-theme="default"][data-mode="dark"], :root[data-mode="dark"]',
+      DEFAULT_LIGHT,
+      DEFAULT_DARK,
     ]);
   });
 
@@ -51,15 +67,32 @@ describe("theme token parity", () => {
     }
   });
 
-  it("every block defines exactly the same token names as default light", () => {
-    const baseline = parseThemeBlocks(read("default.css")).get(':root, [data-theme="default"]')!;
-    expect(baseline.size).toBe(40);
+  it("every block defines every L1 token", () => {
+    expect(L1_BASELINE.length).toBe(40);
     for (const file of files) {
       for (const [selector, tokens] of parseThemeBlocks(read(file))) {
-        const missing = [...baseline].filter((t) => !tokens.has(t));
-        const extra = [...tokens].filter((t) => !baseline.has(t));
-        expect({ file, selector, missing, extra }).toEqual({ file, selector, missing: [], extra: [] });
+        const missing = L1_BASELINE.filter((t) => !tokens.has(t));
+        expect({ file, selector, missing }).toEqual({ file, selector, missing: [] });
       }
+    }
+  });
+
+  it("the only tokens beyond L1 are allowlisted L2 overrides", () => {
+    const l1 = new Set(L1_BASELINE);
+    for (const file of files) {
+      for (const [selector, tokens] of parseThemeBlocks(read(file))) {
+        const extra = [...tokens].filter((t) => !l1.has(t) && !L2_OVERRIDES.has(t));
+        expect({ file, selector, extra }).toEqual({ file, selector, extra: [] });
+      }
+    }
+  });
+
+  it("light and dark blocks of one theme file carry identical token names", () => {
+    for (const file of files) {
+      const [light, dark] = [...parseThemeBlocks(read(file)).values()];
+      const lightOnly = [...light].filter((t) => !dark.has(t));
+      const darkOnly = [...dark].filter((t) => !light.has(t));
+      expect({ file, lightOnly, darkOnly }).toEqual({ file, lightOnly: [], darkOnly: [] });
     }
   });
 

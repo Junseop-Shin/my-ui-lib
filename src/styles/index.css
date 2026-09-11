@@ -10,6 +10,33 @@
   --shadow-lg: var(--shadow-offset-x) calc(var(--shadow-offset-y) * 4) calc(var(--shadow-blur) * 4) var(--shadow-spread) rgb(var(--shadow-color) / var(--shadow-opacity));
 }
 
+/* ─── L2 컴포넌트 토큰 — 기본값은 L1에서 파생한다. 테마가 덮어쓸 수 있다 ─── */
+:root {
+  --button-radius: 9999px;
+  --button-h-sm: 2rem;
+  --button-h-md: 2.5rem;
+  --button-h-lg: 3rem;
+  --button-px-sm: 1rem;
+  --button-px-md: 1.25rem;
+  --button-px-lg: 1.75rem;
+
+  --input-h: 2.5rem;
+  --input-radius: calc(var(--radius) + 8px);
+  --input-border-w: 1px;
+  --input-px: 0.75rem;
+
+  --card-radius: calc(var(--radius) + 16px);
+  --card-padding: 1.5rem;
+  --card-shadow: var(--shadow-sm);
+
+  --badge-radius: 9999px;
+  --badge-px: 0.625rem;
+  --badge-py: 0.125rem;
+
+  --dialog-radius: calc(var(--radius) + 16px);
+  --dialog-padding: 1.5rem;
+}
+
 @theme inline {
   /* 색 */
   --color-background: var(--background);
@@ -61,6 +88,30 @@
 
   /* 모션 — duration은 이름공간이 없어 여기 없다. CVA에서 duration-(--duration-normal)로 쓴다 */
   --ease-theme: var(--ease);
+
+  /* L2 — 컴포넌트 토큰을 유틸리티로 */
+  --radius-button: var(--button-radius);
+  --spacing-button-sm: var(--button-h-sm);
+  --spacing-button-md: var(--button-h-md);
+  --spacing-button-lg: var(--button-h-lg);
+  --spacing-button-x-sm: var(--button-px-sm);
+  --spacing-button-x-md: var(--button-px-md);
+  --spacing-button-x-lg: var(--button-px-lg);
+
+  --radius-input: var(--input-radius);
+  --spacing-input: var(--input-h);
+  --spacing-input-x: var(--input-px);
+
+  --radius-card: var(--card-radius);
+  --spacing-card: var(--card-padding);
+  --shadow-card: var(--card-shadow);
+
+  --radius-badge: var(--badge-radius);
+  --spacing-badge-x: var(--badge-px);
+  --spacing-badge-y: var(--badge-py);
+
+  --radius-dialog: var(--dialog-radius);
+  --spacing-dialog: var(--dialog-padding);
 }
 
 /* ─── Base ─── */

@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const badgeVariants = cva(
-  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium transition-colors",
+  "inline-flex items-center rounded-badge border px-badge-x py-badge-y text-xs font-medium transition-colors duration-(--duration-normal)",
   {
     variants: {
       variant: {
@@ -37,6 +37,8 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
       ref={ref}
       className={cn(badgeVariants({ variant }), className)}
       {...props}
+      data-ui="badge"
+      data-variant={variant ?? "default"}
     />
   )
 )

@@ -27,7 +27,7 @@ describe('Card', () => {
 
   it('merges custom className on root', () => {
     render(<Card className="custom"><Card.Content>x</Card.Content></Card>)
-    const card = screen.getByText('x').closest('.rounded-2xl')
+    const card = screen.getByText('x').closest('[data-ui="card"]')
     expect(card).toHaveClass('custom')
   })
 })

@@ -14,7 +14,7 @@ export default defineConfig({
                 resolve: { alias },
                 test: {
                     name: 'unit',
-                    include: ['src/**/*.test.{ts,tsx}'],
+                    include: ['src/**/*.test.{ts,tsx}', 'test/**/*.test.tsx'],
                     environment: 'jsdom',
                     globals: true,
                     setupFiles: './vitest.setup.ts',
@@ -30,9 +30,10 @@ export default defineConfig({
             {
                 // 토큰 파리티는 CSS 파일을 디스크에서 읽는다. jsdom 변환 모드는
                 // import.meta.url을 self.location으로 바꿔 경로가 깨지므로 node로 돌린다.
+                // 컴포넌트를 렌더하는 test/*.test.tsx는 jsdom이 필요해 unit이 맡는다.
                 test: {
                     name: 'tokens',
-                    include: ['test/**/*.test.{ts,tsx}'],
+                    include: ['test/**/*.test.ts'],
                     environment: 'node',
                 },
             },

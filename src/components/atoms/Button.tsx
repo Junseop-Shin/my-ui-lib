@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 select-none cursor-pointer",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all duration-(--duration-normal) ease-theme focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 select-none cursor-pointer",
   {
     variants: {
       variant: {
@@ -21,12 +21,12 @@ const buttonVariants = cva(
         link: "bg-transparent text-primary underline-offset-4 hover:underline h-auto p-0",
       },
       size: {
-        sm: "h-8 rounded-full px-4 text-xs",
-        md: "h-10 rounded-full px-5 text-sm",
-        lg: "h-12 rounded-full px-7 text-base",
-        icon: "h-10 w-10 rounded-full",
-        "icon-sm": "h-8 w-8 rounded-full",
-        "icon-lg": "h-12 w-12 rounded-full",
+        sm: "h-button-sm rounded-button px-button-x-sm text-xs",
+        md: "h-button-md rounded-button px-button-x-md text-sm",
+        lg: "h-button-lg rounded-button px-button-x-lg text-base",
+        icon: "h-button-md w-button-md rounded-button",
+        "icon-sm": "h-button-sm w-button-sm rounded-button",
+        "icon-lg": "h-button-lg w-button-lg rounded-button",
       },
     },
     defaultVariants: {
@@ -48,6 +48,9 @@ const Button = React.forwardRef<
     ref={ref}
     className={cn(buttonVariants({ variant, size }), className)}
     {...props}
+    data-ui="button"
+    data-variant={variant ?? "default"}
+    data-size={size ?? "md"}
   />
 ))
 Button.displayName = "Button"

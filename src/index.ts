@@ -96,3 +96,7 @@ export { useCopyToClipboard } from './hooks/useCopyToClipboard';
 
 // Utilities
 export { cn } from './lib/utils';
+
+// Theme
+export { ThemeProvider, useTheme, DESIGN_THEMES } from './context/ThemeContext';
+export type { DesignTheme, ColorMode, ResolvedMode, ThemeProviderProps } from './context/ThemeContext';

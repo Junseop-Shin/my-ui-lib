@@ -23,29 +23,31 @@ yarn add my-ui-lib
 - `tailwindcss` (v4 권장)
 - `lucide-react` (아이콘)
 
-## 🎨 테마 시스템 (Theme System)
+## 테마
 
-3가지 테마를 기본 지원하며, CSS 변수를 통해 커스터마이징 가능합니다.
-
-1. **Light**: 깔끔한 화이트/슬레이트 그레이 조합
-2. **Dark**: 눈이 편안한 다크 그레이 조합
-3. **Finance**: 신뢰감을 주는 네이비/블루 조합 (블룸버그 스타일)
-
-### 설정 방법 (Setup)
-
-앱 최상단에 `ThemeProvider`를 감싸주세요.
+컬러 모드와 디자인 테마는 별개의 축이다. 디자인 테마 6종 각각이 light/dark 한 쌍을 가진다.
 
 ```tsx
-import { ThemeProvider } from 'my-ui-lib/context';
+import { ThemeProvider, useTheme, DESIGN_THEMES } from "@junseop-shin/my-ui-lib";
 
-function App() {
-  return (
-    <ThemeProvider defaultTheme="finance" storageKey="my-app-theme">
-      <YourApp />
-    </ThemeProvider>
-  );
-}
+<ThemeProvider defaultTheme="default" defaultMode="system">
+  <App />
+</ThemeProvider>
 ```
+
+```tsx
+const { theme, setTheme, mode, setMode, resolvedMode } = useTheme();
+// theme: default | finance | vintage-paper | mocha-mousse | neo-brutalism | claymorphism
+// mode: light | dark | system   resolvedMode: light | dark
+```
+
+Provider는 `<html>`에 `data-theme`과 `data-mode`를 꽂는다. `system`은 `matchMedia`로 풀어서 꽂으므로 DOM에는 `light`/`dark`만 들어간다. 저장 키는 `themeStorageKey`(기본 `ui-design-theme`) · `modeStorageKey`(기본 `ui-color-mode`) prop으로 바꿀 수 있다.
+
+테마 목록과 출처는 [docs/themes.md](docs/themes.md), 토큰 구조는 [docs/theme-axis-plan.md](docs/theme-axis-plan.md)를 본다.
+
+### v1에서 올라올 때
+
+`ThemeProvider`의 `theme` prop이 두 축으로 갈라졌다. `theme="dark"`는 `defaultMode="dark"`로, `theme="finance"`는 `defaultTheme="finance" defaultMode="dark"`로 바꾼다. 단일 `storageKey` prop은 없어지고 `themeStorageKey` · `modeStorageKey`로 나뉘었다. `localStorage`의 옛 `ui-theme` 키는 첫 실행에 자동으로 옮겨진다.
 
 ## 🧩 주요 컴포넌트 (Components)
 
@@ -158,32 +160,6 @@ npm run build
 ### 툴체인
 
 TypeScript 6 · Vite 8 · Vitest 4 · Storybook 10 · ESLint 10 · Tailwind CSS 4
-
-## 테마
-
-컬러 모드와 디자인 테마는 별개의 축이다.
-
-```tsx
-import { ThemeProvider, useTheme, DESIGN_THEMES } from "@junseop-shin/my-ui-lib";
-
-<ThemeProvider defaultTheme="default" defaultMode="system">
-  <App />
-</ThemeProvider>
-```
-
-```tsx
-const { theme, setTheme, mode, setMode, resolvedMode } = useTheme();
-// theme: default | finance | vintage-paper | mocha-mousse | neo-brutalism | claymorphism
-// mode: light | dark | system   resolvedMode: light | dark
-```
-
-Provider는 `<html>`에 `data-theme`과 `data-mode`를 꽂는다. `system`은 `matchMedia`로 풀어서 꽂으므로 DOM에는 `light`/`dark`만 들어간다.
-
-테마 목록과 출처는 [docs/themes.md](docs/themes.md), 토큰 구조는 [docs/theme-axis-plan.md](docs/theme-axis-plan.md)를 본다.
-
-### v1에서 올라올 때
-
-`ThemeProvider`의 `theme` prop이 두 축으로 갈라졌다. `theme="dark"`는 `defaultMode="dark"`로, `theme="finance"`는 `defaultTheme="finance" defaultMode="dark"`로 바꾼다. `localStorage`의 옛 `ui-theme` 키는 첫 실행에 자동으로 옮겨진다.
 
 ## 📄 라이선스 (License)
 MIT

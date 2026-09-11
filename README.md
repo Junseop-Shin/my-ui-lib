@@ -159,5 +159,31 @@ npm run build
 
 TypeScript 6 · Vite 8 · Vitest 4 · Storybook 10 · ESLint 10 · Tailwind CSS 4
 
+## 테마
+
+컬러 모드와 디자인 테마는 별개의 축이다.
+
+```tsx
+import { ThemeProvider, useTheme, DESIGN_THEMES } from "@junseop-shin/my-ui-lib";
+
+<ThemeProvider defaultTheme="default" defaultMode="system">
+  <App />
+</ThemeProvider>
+```
+
+```tsx
+const { theme, setTheme, mode, setMode, resolvedMode } = useTheme();
+// theme: default | finance | vintage-paper | mocha-mousse | neo-brutalism | claymorphism
+// mode: light | dark | system   resolvedMode: light | dark
+```
+
+Provider는 `<html>`에 `data-theme`과 `data-mode`를 꽂는다. `system`은 `matchMedia`로 풀어서 꽂으므로 DOM에는 `light`/`dark`만 들어간다.
+
+테마 목록과 출처는 [docs/themes.md](docs/themes.md), 토큰 구조는 [docs/theme-axis-plan.md](docs/theme-axis-plan.md)를 본다.
+
+### v1에서 올라올 때
+
+`ThemeProvider`의 `theme` prop이 두 축으로 갈라졌다. `theme="dark"`는 `defaultMode="dark"`로, `theme="finance"`는 `defaultTheme="finance" defaultMode="dark"`로 바꾼다. `localStorage`의 옛 `ui-theme` 키는 첫 실행에 자동으로 옮겨진다.
+
 ## 📄 라이선스 (License)
 MIT

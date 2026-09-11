@@ -70,7 +70,7 @@ my-ui-lib/
 
 **Interfaces:**
 - Produces (이후 모든 태스크가 쓴다):
-  - 셀렉터 규약: 테마 light 블록은 `[data-theme="<name>"]`, dark 블록은 `[data-theme="<name>"][data-mode="dark"]`. `default`는 추가로 `:root`에도 light 값을 둬서 속성이 없을 때의 기본값이 된다.
+  - 셀렉터 규약: 테마 light 블록은 `[data-theme="<name>"]`, dark 블록은 `[data-theme="<name>"][data-mode="dark"]`. `default`의 L1 값은 조건 없는 `:root`와 `:root[data-mode="dark"]`에 둬서 모든 테마의 바닥값이 된다. `data-theme`이 없거나 모르는 값이어도 여기로 떨어진다. `[data-theme="default"]`에는 default 전용 L2 오버라이드만 둔다.
   - L1 토큰 이름(모든 테마 블록이 이 키를 빠짐없이 정의한다):
     - 색 25개: `--background` `--foreground` `--card` `--card-foreground` `--popover` `--popover-foreground` `--primary` `--primary-foreground` `--secondary` `--secondary-foreground` `--muted` `--muted-foreground` `--accent` `--accent-foreground` `--destructive` `--destructive-foreground` `--success` `--success-foreground` `--warning` `--warning-foreground` `--info` `--info-foreground` `--border` `--input` `--ring`
     - 형태: `--radius`

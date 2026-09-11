@@ -31,7 +31,8 @@ suite("테마 적용", () => {
 <link rel="stylesheet" href="file://${cssPath!}">
 <body><div id="probe" style="background: var(--background); color: var(--foreground)">x</div>
 <button data-ui="button" class="h-button-md rounded-button">b</button>
-<div id="card" data-ui="card" class="rounded-card shadow-card">c</div></body>`;
+<div id="card" data-ui="card" class="rounded-card shadow-card">c</div>
+<div id="pad" class="p-4">p</div></body>`;
     writeFileSync(join(dir, "index.html"), html);
     pageUrl = `file://${join(dir, "index.html")}`;
     browser = await chromium.launch();
@@ -93,6 +94,26 @@ suite("테마 적용", () => {
     expect(base.radius).toBe("9999px");
     expect(neo.radius).toBe("0px");
     expect(neo.shadow).not.toBe(base.shadow);
+    await page.close();
+  }, 30_000);
+
+  // 이 테스트가 잡는 결함: default.css의 L1 블록을 :root:not([data-theme])로 좁혀
+  // 모르는 data-theme 값(오타 · localStorage 잔재 · 손으로 쓴 anti-FOUC 스크립트)에서
+  // 바닥값이 통째로 사라지던 상태. --space가 비면 @theme inline의 --spacing까지 비어서
+  // 소비자 앱의 p-4 · gap-* 같은 간격 유틸리티가 전부 0px로 계산된다.
+  it("모르는 data-theme에서도 :root 바닥값이 남는다", async () => {
+    const page = await browser.newPage();
+    await page.goto(pageUrl);
+    await page.evaluate(() => document.documentElement.setAttribute("data-theme", "bogus"));
+    const v = await page.evaluate(() => ({
+      radius: getComputedStyle(document.documentElement).getPropertyValue("--radius").trim(),
+      btnRadius: getComputedStyle(document.querySelector('[data-ui="button"]')!)
+        .borderTopLeftRadius,
+      pad: getComputedStyle(document.getElementById("pad")!).paddingTop,
+    }));
+    expect(v.radius).not.toBe("");
+    expect(v.btnRadius).toBe("12px"); // --radius 0.75rem이 실제로 풀린다
+    expect(v.pad).toBe("16px"); // --spacing = --space 0.25rem
     await page.close();
   }, 30_000);
 

@@ -22,7 +22,6 @@
       "import": "./dist/my-ui-lib.es.js",
       "require": "./dist/my-ui-lib.umd.js"
     },
-    "./styles": "./dist/styles.css",
     "./styles.css": "./dist/styles.css"
   },
   "scripts": {

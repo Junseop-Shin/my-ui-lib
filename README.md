@@ -3,8 +3,10 @@
 **React 19+, TypeScript, Tailwind CSS v4, Base UI** 기반의 디자인 시스템 라이브러리입니다.
 금융권(Fintech) 서비스에 최적화된 테마 시스템과 데이터 시각화 컴포넌트를 제공합니다.
 
-> **v1.0.0** — Headless 기반을 Radix UI에서 [Base UI](https://base-ui.com)로 전환했습니다.
-> 자세한 배경은 [Headless 라이브러리 선택](#headless-라이브러리-선택) 참조.
+> **v2.0.0** — 테마가 디자인 테마 · 컬러 모드 두 축으로 갈라졌고, 라이브러리가 완성된
+> 스타일시트를 직접 싣습니다. 올라오는 법은 [v1에서 올라올 때](#v1에서-올라올-때) 참조.
+> Headless 기반은 v1.0.0에서 Radix UI에서 [Base UI](https://base-ui.com)로 바꿨습니다 —
+> 배경은 [Headless 라이브러리 선택](#headless-라이브러리-선택) 참조.
 
 ## 🚀 시작하기 (Getting Started)
 
@@ -15,6 +17,19 @@ npm install my-ui-lib
 # 또는
 yarn add my-ui-lib
 ```
+
+### 스타일시트 불러오기 (Stylesheet)
+
+**설치 다음에 반드시 해야 하는 단계다.** 앱 진입점에서 한 번 불러온다.
+
+```tsx
+import "@junseop-shin/my-ui-lib/styles.css";
+```
+
+이 파일에는 컴포넌트가 쓰는 유틸리티와 디자인 테마 6종의 토큰 블록이 모두 들어 있다.
+미리 빌드된 파일이므로 **소비자 쪽에 Tailwind가 없어도 된다.** 소비자가 Tailwind를 쓰더라도
+이 스타일시트를 따로 불러와야 한다 — `rounded-button` `h-button-md` 같은 클래스는
+라이브러리의 `@theme` 블록이 있어야만 생기고, 소비자의 Tailwind는 그 블록을 모른다.
 
 ### 필수 의존성 (Peer Dependencies)
 
